@@ -1,15 +1,23 @@
 ## Abstract
 <!-- Context      -->
-Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+RDF archives are used to store different versions of Linked Datasets
+The ability of querying over these versions is an active area of research,
+and allows for basic insights to be discovered,
+such as tracking the evolution of certain things in datasets.
 <!-- Need         -->
-Vestibulum finibus dignissim augue, id pellentesque est facilisis non.
+Querying can however only get you so far.
+In order to make sense of versioned data,
+and to derive knowledge,
+we need to be able to _reason_ over this data.
 <!-- Task         -->
-Donec fringilla dolor non neque iaculis blandit.
+In order to achieve this,
+we explore fundamental concepts on semantic storage and querying of versioned datasets
+using rule-based reasoning.
 <!-- Object       -->
-Praesent aliquet eleifend iaculis.
+In this work, we present these concepts as a semantic extension
+of the existing RDF archiving concepts that focus on syntactical versioning.
 <!-- Findings     -->
-Quisque pellentesque at odio ac bibendum.
 <!-- Conclusion   -->
-Pellentesque imperdiet felis urna, quis facilisis lacus gravida non.
+This work lays a foundation for semantic changes in RDF archiving
 <!-- Perspectives -->
-Donec quis lectus eget sem tempor tristique pellentesque in dolor.
+using which RDF archive storage and query systems to be designed.
