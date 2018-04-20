@@ -1,4 +1,7 @@
 ## Abstract
+
+TODO: rewrite to focus just on the querying part
+
 <!-- Context      -->
 RDF archives are used to store different versions of Linked Datasets
 The ability of querying over these versions is an active area of research,

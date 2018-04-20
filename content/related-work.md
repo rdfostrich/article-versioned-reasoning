@@ -9,6 +9,8 @@ TODO: Query atoms and storage policies
 
 TODO: SemVersion and MORE
 
+TODO: wrong: SemVersion versions both A-Box and T-Box?
+
 ### Stream Reasoning
 
 TODO: say why it is different

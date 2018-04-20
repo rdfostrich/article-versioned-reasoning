@@ -1,6 +1,8 @@
 ## Introduction
 {:#introduction}
 
+TODO: rewrite to focus just on the querying part
+
 RDF versioning —also known as RDF archiving— has been an active area of research
 that looks into storage and querying techniques on different versions of Linked Datasets.
 These versions don't necessarily have a temporal relationship,
@@ -12,6 +14,7 @@ This allows _reasoners_ to interpret this data, and use this encoded meaning to 
 Reasoning within static RDF data and temporal RDF streams are already well-established research domains.
 Reasoning over RDF versions on the other hand is still an underexplored domain.
 
+TODO: wrong: SemVersion versions both A-Box and T-Box?
 On the one hand, the calculation of [semantic differences](cite:cites semversion) between versions has been investigated,
 where the A-box is versioned, while the T-box remains the same.
 On the other hand, [reasoning with multi-version ontologies](cite:cites more) was investigated
