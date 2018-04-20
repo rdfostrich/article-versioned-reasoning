@@ -1,0 +1,16 @@
+abbreviation,full
+CB,Change-based
+CM,Change materialization
+CV,Cross-version join
+CVS,Concurrent Versions System
+DM,Delta materialization
+HTTP,Hypertext Transfer Protocol
+IC,Independent copies
+IRI,
+OSTRICH,Offset-Enabled Triple Store for Changesets
+RDF,Resource Description Framework
+SPARQL,SPARQL Procotol and RDF Query Language
+TB,Timestamp-based
+VM,Version materialization
+VTPF,Versioned Triple Pattern Fragments
+VQ,Version query

@@ -1,6 +1,7 @@
 ## Abstract
 
-TODO: rewrite to focus just on the querying part
+{:.todo}
+rewrite to focus just on the querying part
 
 <!-- Context      -->
 RDF archives are used to store different versions of Linked Datasets

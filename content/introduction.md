@@ -1,7 +1,8 @@
 ## Introduction
 {:#introduction}
 
-TODO: rewrite to focus just on the querying part
+{:.todo}
+rewrite to focus just on the querying part
 
 RDF versioning —also known as RDF archiving— has been an active area of research
 that looks into storage and querying techniques on different versions of Linked Datasets.
@@ -30,4 +31,5 @@ This prototype demonstrates the benefits of semantic versioning,
 such as finding all versions in which a certain fact can be inferred,
 and storage space reduction by inferring facts instead of materializing them beforehand.
 
-TODO: article structure
+{:.todo}
+article structure

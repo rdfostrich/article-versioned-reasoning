@@ -1,0 +1,10 @@
+Version 0:
+    ex:Bob a ex:Animal.
+    ex:Bob foaf:name "Bob".
+
+Version 1:
+    ex:Bob a ex:Cat.
+    ex:Bob foaf:name "Bob".
+
+Language:
+    ex:Cat rdf:subClassOf ex:Animal.
