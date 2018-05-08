@@ -9,7 +9,7 @@ instead of only _dataset versioning_.
 
 ### Semantic Closure
 
-To remain in line with the definitions on RDF archiving as listed in [](##fundamentals),
+To remain in line with the definitions on RDF archiving as listed in [](#fundamentals),
 we adapt the semantic closure definition by Völkel et al. as follows:
 _The semantic closure s(A<sub>i</sub>, L<sub>j</sub>) of a version V<sub>i</sub> is the set of all triples that can be inferred from the triples in A<sub>i</sub> under the semantics of the RDF-based ontology language L<sub>j</sub>._
 
@@ -19,8 +19,8 @@ for which we use the notation _L<sub>j</sub>_ to refer to the RDF version _j_ of
 ### Query Atoms
 
 In this section, we describe the semantic extensions of the five foundational query atoms for querying RDF archives.
-The atoms that apply to multiple versions instead of a single version are subcategorized
-to handle different combinations of fixed and variable dataset and ontology versions.
+The atoms that apply to multiple versions (VQ and CM) are subcategorized
+to handle the different combinations of single and cross-version dataset and ontology versions.
 
 Each extension is described formally, and an example of its usage is given.
 All examples apply to the use case of a cat shelter
@@ -42,7 +42,7 @@ The semantic extension of the five versioned query atoms are defined as follows:
     1. **Semantic intermodal and interontological version query (MOS-VQ)** annotates query _Q_'s results with the versions
         of RDF archive _A_ and ontology _L_ in which they are valid.<br />
         Formally: _S-VQ(Q, A, L) = {(Ω, V) | V = {(A<sub>i</sub>, L<sub>j</sub>) | Ω=\[\[Q\]\]<sub>s(A<sub>i</sub>, L<sub>j</sub>)</sub>, i, j ∈ N} ∧ Ω ≠ ∅}_<br />
-        Example: _At what points in time were there African wild cats in the schelter, and according to the classification of when?_
+        Example: _At what points in time were there African wild cats in the schelter, and according to the classification of what time?_
     2. **Semantic intermodal version query (MS-VQ)** annotates query _Q_'s results with the versions
         of RDF archive _A_ in which they are valid according to ontology version _L<sub>j</sub>_.<br />
         Formally: _S-VQ(Q, A, L<sub>j</sub>) = {(Ω, V) | V = {A<sub>i</sub> | Ω=\[\[Q\]\]<sub>s(A<sub>i</sub>, L<sub>j</sub>)</sub>, j ∈ N} ∧ Ω ≠ ∅}_<br />
@@ -53,7 +53,7 @@ The semantic extension of the five versioned query atoms are defined as follows:
         Example: _At what points in time were the cats that are currently in the shelter ever African wild cats?_
 4. **Semantic cross-version join (S-CV)** joins the results of two queries (_Q1_ and _Q2_) between versions _A<sub>i</sub>_ and _A<sub>j</sub>_ respectively using ontology version _L<sub>k</sub>_ and _L<sub>l</sub>_.<br />
     Formally: _S-CV(Q<sub>1</sub>, Q<sub>2</sub>, A<sub>i</sub>, A<sub>j</sub>, L<sub>k</sub>, L<sub>l</sub>) = S-VM(Q<sub>1</sub>, A<sub>i</sub>, L<sub>k</sub>) ⨝ S-VM(Q<sub>2</sub>, A<sub>j</sub>, L<sub>l</sub>)_<br />
-    Example: _Which African wild cats were in the shelter yesterday according to last year's classification and the day before according to the current classification?_
+    Example: _Which African wild cats were in the shelter yesterday (according to last year's classification) and the day before (according to the current classification)?_
 5. **Semantic change materialization (S-CM)**
     1. **Semantic intermodal and interontological change materialization (MOS-CM)** returns a list of consecutive archive and ontology versions in which a given query _Q_ produces different results.<br />
         Formally: _S-CV(Q, A, L) = {(i, j, k, l) | i, j, k, l ∈ ℕ, i < j, k < l, S-DM(Q, A<sub>i</sub>, A<sub>j</sub>, L<sub>k</sub>, L<sub>l</sub>) = (Ω<sup>+</sup>, Ω<sup>−</sup>), Ω<sup>+</sup> ∪ Ω<sup>−</sup> ≠ ∅, ∄ a ∈ ℕ : i < a < j, ∄ b ∈ ℕ : k < b < l}_<br />
@@ -73,7 +73,7 @@ These subtypes can be used as simplified form of the foundational semantic query
 
 #### Semantic delta materialisation
 
-The definition of the semantic delta materialization (S-DM) is similar to,
+The definition of semantic delta materialization (S-DM) is similar to,
 but more generic than the [semantic diff definition by Völkel et al](cite:cites semversion).
 While the semantic diff only allows versioning on the dataset, our S-DM definition also enables versioning of the ontology.
 Similarly, [Huang et al.](cite:cites more) introduce a diff that enables versioning of the ontology, but not on the dataset.
