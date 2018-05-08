@@ -16,6 +16,9 @@ Some preliminary work has already been done in the domain of reasoning over RDF 
 In one work, the calculation of [semantic differences](cite:cites semversion) between versions has been investigated.
 In another work, [reasoning with multi-version ontologies](cite:cites more) was investigated.
 These works cover only very specific parts of the reasoning demands within RDF versioning.
+For example, given a versioned dataset about the cat population inside a shelter,
+it is currently impossible with the existing systems to retrieve the dataset version indentifiers for which African wild cats were present,
+according to the classification version, i.e., ontology, of a given institution.
 Furthermore, the domain of combining reasoning and querying
 —as is done in [Ontology-Based Data Access techniques](cite:cites heymans2008ontology,poggi2008linking)—
 within the domain of RDF versioning remains unexplored.
