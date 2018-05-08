@@ -23,18 +23,18 @@ the [RDF data model](cite:cites spec:rdf) and [SPARQL query language](cite:cites
 In these models, a _triple pattern_ is defined as _(U ∪ V) × (U ∪ V) × (U ∪ L ∪ V)_, with _V_ being the infinite set of variables.
 A set of triple patterns is called a _Basic Graph Pattern_, which forms the basis of a SPARQL query.
 The evaluation of a SPARQL query _Q_ on an RDF graph _G_ containing RDF triples,
-produces a bag of solution mappings _\[\[Q\]\]G_.
+produces a bag of solution mappings _\[\[Q\]\]<sub>G</sub>_.
 
 The five foundational query atoms introduced by Fernández et al. are the following:
 
 1. **Version materialization (VM)** retrieves data using a query _Q_ targeted at a single version _A<sub>i</sub>_.<br />
-Formally: _VM(Q, A<sub>i</sub>) = \[\[Q\]\]A<sub>i</sub>_.<br />
+Formally: _VM(Q, A<sub>i</sub>) = \[\[Q\]\]<sub>A<sub>i</sub></sub>_.<br />
 Example: _Which books were present in the library yesterday?_
 2. **Delta materialization (DM)** retrieves query _Q_'s result change sets between two versions _A<sub>i</sub>_ and _A<sub>j</sub>_.<br />
-Formally: _DM(Q, A<sub>i</sub>, A<sub>j</sub>)=(Ω<sup>+</sup>, Ω<sup>−</sup>). With Ω<sup>+</sup> = \[\[Q\]\]A<sub>i</sub> \ \[\[Q\]\]A<sub>j</sub> and Ω<sup>−</sup> = \[\[Q\]\]A<sub>j</sub> \ \[\[Q\]\]A<sub>i</sub>_.<br />
+Formally: _DM(Q, A<sub>i</sub>, A<sub>j</sub>)=(Ω<sup>+</sup>, Ω<sup>−</sup>). With Ω<sup>+</sup> = \[\[Q\]\]<sub>A<sub>i</sub></sub> \ \[\[Q\]\]<sub>A<sub>j</sub></sub> and Ω<sup>−</sup> = \[\[Q\]\]<sub>A<sub>j</sub></sub> \ \[\[Q\]\]<sub>A<sub>i</sub></sub>_.<br />
 Example: _Which books were returned or taken from the library between yesterday and now?_
 3. **Version query (VQ)** annotates query _Q_'s results with the versions (of RDF archive A) in which they are valid.<br />
-Formally: _VQ(Q, A) = {(Ω, W) | W = {A(i) | Ω=\[\[Q\]\]A(i), i ∈ N} ∧ Ω ≠ ∅}_.<br />
+Formally: _VQ(Q, A) = {(Ω, W) | W = {A(i) | Ω=\[\[Q\]\]<sub>A(i)</sub>, i ∈ N} ∧ Ω ≠ ∅}_.<br />
 Example: _At what times was book X present in the library?_
 4. **Cross-version join (CV)** joins the results of two queries (_Q1_ and _Q2_) between versions _A<sub>i</sub>_ and _A<sub>j</sub>_.<br />
 Formally: _VM(Q1, A<sub>i</sub>) ⨝ VM(Q2, A<sub>j</sub>)_.<br />
@@ -48,7 +48,8 @@ Example: _At what times was book X returned or taken from the library?_
 
 Völkel et al. introduce the concept of a [_semantic diff_](cite:cites semversion)
 that takes the semantics of an ontology language into account when calculating the diff,
-which is not the case for a _structural diff_.
+which is not the case for a regular _structural diff_.
+The difference between these two types of diff will be explained hereafter.
 
 As an example, consider the dataset with two versions from [](#semdiff-dataset-example).
 The typical, structural diff just takes the difference between these two versions at triple level,
