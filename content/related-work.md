@@ -1,8 +1,9 @@
 ## Related Work
 {:#related-work}
 
-In this section, we introduce the related work on semantic versioned querying.
-In the following, we elaborate on semantic versioning in general, stream reasoning, and ontology-based data access.
+Semantic versioned querying lies somewhere in between the domains of
+semantic versioning, stream reasoning, and ontology-based data access.
+In this section, we discuss the related work in these domains.
 
 ### Semantic Versioning
 
