@@ -23,7 +23,8 @@ Furthermore, the domain of combining reasoning and querying
 —as is done in [Ontology-Based Data Access techniques](cite:cites heymans2008ontology,poggi2008linking)—
 within the domain of RDF versioning remains unexplored.
 
-In this work, we introduce a general formalization of reasoning within RDF versioning from the querying perspective.
+In this work, we introduce a general formalization of semantic versioned querying,
+i.e., reasoning within RDF versioning from the querying perspective.
 For this, we extend the [five foundational versioned query types](cite:cites bear) that were introduced
 to cover the retrieval demands within RDF versioning.
 Furthermore, we present a prototypical implementation of a versioned RDF store
@@ -31,6 +32,11 @@ that offers basic rule-based reasoning capabilities at query-time.
 This prototype demonstrates the benefits of semantic versioning,
 such as finding all versions in which a certain fact can be inferred,
 and storage space reduction by inferring facts instead of materializing them beforehand.
+The aim of this work is to provide a foundation
+for the future research and development of semantic versioned querying within RDF stores.
+This will lead to improvements inside domains that require the semantic analysis on Linked Datasets,
+for example for analyzing [concept drift](cite:cites conceptdrift)
+or [tracking diseases in biomedical datasets](cite:cites biomedical) over time.
 
 {:.todo}
 article structure
