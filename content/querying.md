@@ -1,4 +1,4 @@
-## Querying
+## Semantic Versioned Query Atoms
 {:#querying}
 
 As discussed in [](#fundamentals), there exist five foundational query atoms for querying RDF archives.

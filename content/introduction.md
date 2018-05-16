@@ -38,5 +38,9 @@ This will lead to improvements inside domains that require the semantic analysis
 for example for analyzing [concept drift](cite:cites conceptdrift)
 or [tracking diseases in biomedical datasets](cite:cites biomedical) over time.
 
-{:.todo}
-article structure
+This article is structured as follows:
+In the next section, we discuss related work on semantic versioned querying.
+In [](#fundamentals), we discuss the fundamental concepts on RDF versioning.
+After that, in [](#querying), we introduce new foundational semantic versioned query atoms.
+In [](#demo), we present a proof-of-concept implementation of these atoms with a preliminary evalution.
+Finally, we conclude in [](#conclusions).
