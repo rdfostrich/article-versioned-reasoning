@@ -37,7 +37,7 @@ and _v<sup>l</sup>_ indicating the version of the language.
 </figcaption>
 </figure>
 
-The source code of this prototype can be found on [GitHub](https://github.com/rdfostrich/poc-semantic-versioning){:.mandatory}
+The source code of this prototype can be found on [GitHub](https://github.com/rdfostrich/semantic-ostrich){:.mandatory}
 and is available under the MIT license.
 
 ### Evaluation
@@ -59,6 +59,8 @@ always using the single language version.
 For S-VM, we query the last version ,
 for S-DM, we query between the first and last version,
 and for S-VQ, we do an intermodal query using the single language version.
+
+The source code of this evaluation can be found on [GitHub](https://github.com/rdfostrich/semantic-ostrich/blob/master/evaluate.js){:.mandatory}
 
 ### Results
 
