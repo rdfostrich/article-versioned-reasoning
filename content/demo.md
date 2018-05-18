@@ -21,10 +21,9 @@ It does this through the following steps:
 
 1. Select applicable rules for the given triple pattern.
 2. Query the dataset for the given triple pattern and version options.
-3. Query the language for the given triple pattern and version options.
 4. Loop until set of inferred triples stops growing.
     1. Determine rules that can infer new triples
-    2. Perform backwards reasoning with these rules by querying the dataset for the given triple pattern and version options.
+    2. Perform backwards reasoning with these rules by querying the dataset and language for the given triple pattern and version options.
     3. Add newly inferred triples to set of triples
 
 <figure id="architecture">
@@ -80,20 +79,20 @@ The table columns indicate the following:
 
 The results show that the backwards reasoner within our prototype
 requires almost eight queries to the OSTRICH stores on average for this dataset.
-The queries to the OSTRICH stores clearly form the main bottleneck.
+The queries to the OSTRICH stores form the main bottleneck.
 
 <figure id="results-s-vm" class="table" markdown="1">
 
 | **Query** | **Original** | **Reduced** | **Inferred** | **Inference queries** | **Inferred normalized** |
 | --------- | ------------ | ----------- | ------------ | --------------------- | ----------------------- |
-| dbr:Palazzo_Parisio_(Valletta) | 0.77 | 0.42 | 4.38 | 10 | 0.44 |
-| dbr:Singaporean_general_election,_2015 | 0.80 | 0.31 | 5.52 | 10 | 0.55 |
-| dbr:What_Do_You_Mean? | 0.95 | 0.25 | 4.66 | 9 | 0.52 |
-| dbr:Dancing_with_the_Stars_(U.S._season_21) | 0.56 | 0.37 | 1.70 | 6 | 0.28 |
-| dbr:Doctor_Who_(series_9) | 0.32 | 0.23 | 1.52 | 6 | 0.25 |
-| dbr:My_Little_Pony... | 0.58 | 0.21 | 2.58 | 7 | 0.37 |
-| dbr:2015 | 0.61 | 0.35 | 2.11 | 6 | 0.35 |
-| _Average_ | _0.65_ | _0.31_ | _3.21_ | _7.71_ | _0.39_ |
+| dbr:Palazzo_Parisio_(Valletta) | 0.56 | 0.25 | 2.51 | 10 | 0.25 |
+| dbr:Singaporean_general_election,_2015 | 0.47 | 0.21 | 2.26 | 10 | 0.23 |
+| dbr:What_Do_You_Mean? | 0.63 | 0.22 | 1.76 | 9 | 0.20 |
+| dbr:Dancing_with_the_Stars_(U.S._season_21) | 0.58 | 0.23 | 1.55 | 6 | 0.26 |
+| dbr:Doctor_Who_(series_9) | 0.33 | 0.15 | 0.97 | 6 | 0.16 |
+| dbr:My_Little_Pony... | 0.15 | 0.09 | 0.94 | 7 | 0.13 |
+| dbr:2015 | 0.26 | 0.12 | 0.89 | 6 | 0.15 |
+| _Average_ | _0.42_ | _0.18_ | _1.55_ | _7.71_ | _0.20_ |
 
 <figcaption markdown="block">
 Execution times in milliseconds for S-VM queries against the last dataset version,
@@ -105,14 +104,14 @@ using the first language version for an 7 S?? triple patterns.
 
 | **Query** | **Original** | **Reduced** | **Inferred** | **Inference queries** | **Inferred normalized** |
 | --------- | ------------ | ----------- | ------------ | --------------------- | ----------------------- |
-| dbr:Palazzo_Parisio_(Valletta) | 0.51 | 0.24 | 3.98 | 10 | 0.40 |
-| dbr:Singaporean_general_election,_2015 | 0.49 | 0.24 | 3.46 | 10 | 0.35 |
-| dbr:What_Do_You_Mean? | 0.47 | 0.20 | 3.09 | 9 | 0.34 |
-| dbr:Dancing_with_the_Stars_(U.S._season_21) | 0.35 | 0.20 | 1.97 | 6 | 0.33 |
-| dbr:Doctor_Who_(series_9) | 0.21 | 0.12 | 1.28 | 6 | 0.21 |
-| dbr:My_Little_Pony... | 0.18 | 0.15 | 3.60 | 7 | 0.51 |
-| dbr:2015 | 0.46 | 0.15 | 1.89 | 6 | 0.32 |
-| _Average_ | _0.38_ | _0.19_ | _2.75_ | _7.71_ | _0.35_ |
+| dbr:Palazzo_Parisio_(Valletta) | 0.45 | 0.21 | 3.32 | 10 | 0.33 |
+| dbr:Singaporean_general_election,_2015 | 0.39 | 0.18 | 2.27 | 10 | 0.23 |
+| dbr:What_Do_You_Mean? | 0.34 | 0.13 | 2.17 | 9 | 0.24 |
+| dbr:Dancing_with_the_Stars_(U.S._season_21) | 0.40 | 0.20 | 1.06 | 6 | 0.18 |
+| dbr:Doctor_Who_(series_9) | 0.18 | 0.12 | 1.14 | 6 | 0.19 |
+| dbr:My_Little_Pony... | 0.12 | 0.11 | 2.47 | 7 | 0.35 |
+| dbr:2015 | 0.36 | 0.18 | 1.84 | 6 | 0.31 |
+| _Average_ | _0.32_ | _0.16_ | _2.04_ | _7.71_ | _0.26_ |
 
 <figcaption markdown="block">
 Execution times in milliseconds for S-DM queries between the first and last dataset versions,
@@ -124,14 +123,14 @@ both using the first language version for 7 S?? triple patterns.
 
 | **Query** | **Original** | **Reduced** | **Inferred** | **Inference queries** | **Inferred normalized** |
 | --------- | ------------ | ----------- | ------------ | --------------------- | ----------------------- |
-| dbr:Palazzo_Parisio_(Valletta) | 0.76 | 0.50 | 2.91 | 10 | 0.29 |
-| dbr:Singaporean_general_election,_2015 | 0.51 | 0.45 | 2.60 | 10 | 0.26 |
-| dbr:What_Do_You_Mean? | 0.57 | 0.18 | 1.30 | 9 | 0.14 |
-| dbr:Dancing_with_the_Stars_(U.S._season_21) | 0.45 | 0.20 | 1.99 | 6 | 0.33 |
-| dbr:Doctor_Who_(series_9) | 0.31 | 0.22 | 2.34 | 6 | 0.39 |
-| dbr:My_Little_Pony... | 0.17 | 0.12 | 0.93 | 7 | 0.13 |
-| dbr:2015 | 0.27 | 0.10 | 1.00 | 6 | 0.17 |
-| _Average_ | _0.43_ | _0.25_ | _1.87_ | _7.71_ | _0.25_ |
+| dbr:Palazzo_Parisio_(Valletta) | 0.65 | 0.29 | 2.48 | 10 | 0.25 |
+| dbr:Singaporean_general_election,_2015 | 0.83 | 0.28 | 2.16 | 10 | 0.22 |
+| dbr:What_Do_You_Mean? | 0.58 | 0.17 | 1.24 | 9 | 0.14 |
+| dbr:Dancing_with_the_Stars_(U.S._season_21) | 0.43 | 0.27 | 0.96 | 6 | 0.16 |
+| dbr:Doctor_Who_(series_9) | 0.26 | 0.12 | 0.75 | 6 | 0.13 |
+| dbr:My_Little_Pony... | 0.13 | 0.09 | 1.06 | 7 | 0.15 |
+| dbr:2015 | 0.24 | 0.10 | 1.17 | 6 | 0.20 |
+| _Average_ | _0.45_ | _0.19_ | _1.40_ | _7.71_ | _0.18_ |
 
 <figcaption markdown="block">
 Execution times in milliseconds for S-VQ queries for 7 S?? triple patterns.
