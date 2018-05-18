@@ -31,78 +31,13 @@ as not only a single dataset has to be taken into account,
 but multiple different parts or versions of the dataset needs to be processed.
 Next to this similarity, there are significant differences between the domains of streaming and versioning
 which elicits a distinction between them.
-In the following, we discuss five characteristics that are typically attributed to RSP,
-and explain how they differ to RDF versioning.
-
-#### Temporal identification
-
-The most important characteristic of stream processing is its temporality,
-i.e., stream elements are identified by timestamps or time intervals.
-
-Within the domain of versioning, versions are not necessarily temporal.
-For example, version control systems (such as [Git](cite:cites git))
-identify versions using _hashes_, as timestamps are merely metadata,
-and multiple versions can exist at exactly the same time.
-
-#### Temporal relation
-
-This temporal identification within stream processing leads to an ordering in time,
-using which stream elements form a single linear sequence.
-
-Versions do however not necessarily form a single linear ordered sequence.
-Using the concept of _branching_, multiple parallel sequences of versions can exist,
-that have a common ancestor somewhere in the chain.
-Within versioning, the order of version only becomes relevant in cases when you want to calculate the difference between two version.
-In those cases, the order can be defined by the user, or automatically using a temporal annotation if present.
-
-#### Velocity
-
-Velocity is a characteristic that is typically attributed to RDF Stream Processing.
-Use cases include data streams that move very fast, in the order of milliseconds,
-such as telecom call records or financial market analysis.
-This requires applications that handle such quickly evolving data, and can react without too much delay.
-
-Within the domain of versioning, velocity is less important.
-New versions of RDF datasets are typically published at a relatively low frequency.
-[DBpedia](cite:cites dbpedia) for example publishes a new version at a yearly frequency.
-The [RDF version of npm](cite:cites rdfnpm) on the other hand is being generated every day.
-
-#### Real-time
-
-Stream processors typically work under some real-time constraints,
-where an answer must be provided within a certain maximum amount of delay.
-That is why stream processors typically work over small time windows,
-so that the amount of data that needs to be processed is smaller, and can happen more quickly.
-A fast response is in some cases more important than a completely correct response,
-this is for example the case in autonomous vehicles where reaction time must be quick when an collision must be avoided.
-
-Within RDF versioning, real-time is less important,
-mostly because the velocity is much lower,
-which gives processors much more time to come up with an answer over the complete dataset.
-
-#### Storage
-
-Due to the velocity characteristic, streams are typically not being stored,
-because the latest results are typically the most important within stream processing.
-Storing these highly volatile streams would require a massive and continuously increasing storage space.
-
-As the velocity for versioning is typically much lower,
-historical versions can be stored.
-For this, specific [RDF archiving solutions](cite:cites archiving) are being investigated and implemented.
-
-#### Continuous
-
-Coupled with the velocity characteristic, stream processing typically uses _continuous_ queries.
-Because the latest results are typically the most important, and delay should be minimized.
-That is why continuous queries are registered to a processing engine once,
-after which the engine continuously evaluates the query and streams back the results.
-
-Continuous querying is possible within the versioning domain,
-but due to its lower velocity, this is less important,
-as the overhead of query registration and continuous processing might outweigh
-the cost of repeatedly sending single-time queries at a low frequency.
-Furthermore, as historical dataset versions are typically stored,
-access to these different versions, or the union over all of them is requires as well.
+For instance, stream elements are temporally identified and sorted,
+while versions are not necessarily temporal, such as hash-based identifiers in version control systems (such as [Git](cite:cites git)).
+Furthermore, streams typically have a high velocity,
+while versions evolve at a lower rate.
+For example, [DBpedia](cite:cites dbpedia) publishes a new version at a yearly frequency,
+and the [RDF version of npm](cite:cites rdfnpm) is being generated every day.
+Due to these significant differences, we see the domains of streaming and versioning as distinct, but partially overlapping domains.
 
 ### Ontology-Based Data Access
 
