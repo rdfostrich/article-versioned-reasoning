@@ -17,6 +17,7 @@ As can be seen in [](#architecture), our semantic layer internally uses two OSTR
 one for the versioned dataset, and one for the versioned language.
 Using a simple backwards rule-based reasoner,
 this semantic layer infers additional triples for each S-VM, S-DM or S-VQ query.
+Rules can be provided in the [Notation 3 syntax](cite:cites n3) at query time.
 It does this through the following steps:
 
 1. Select applicable rules for the given triple pattern.

@@ -13,8 +13,9 @@
 \usepackage{tikz,pgfplots}
 \usetikzlibrary{positioning,arrows,intersections}
 
-\definecolor{colorstore}    {RGB}{199,212,104}
+\definecolor{colorstore} {RGB}{199,212,104}
 \definecolor{colorlayer} {RGB}{79 ,142,209}
+\definecolor{colorrules} {RGB}{143,232,186}
 
 \definecolor{colordelta}    {RGB}{199,212,104}
 \definecolor{colorsnapshot} {RGB}{79 ,142,209}
@@ -34,12 +35,13 @@
 ]
 
     % Layer
-    \fill[colorlayer] (-3, 3) rectangle (10, -1);
+    \fill[colorlayer] (-3, 3) rectangle (10, -2);
     \node[base,fill=colorlayer,text width=30em] at (3.5, 2) (layer) {Semantic Versioned Querying Layer};
 
     % Stores
-    \node[base,fill=colorstore,text width=15em] at ( 0, 0) (data) {Data\\OSTRICH Store};
-    \node[base,fill=colorstore,text width=15em] at ( 7, 0) (language)   {Language\\OSTRICH Store};
+    \node[base,fill=colorrules,text width=36em] at ( 3.5, 1) (rules) {Rules};
+    \node[base,fill=colorstore,text width=15em] at ( 0, -1) (data) {Data\\OSTRICH Store};
+    \node[base,fill=colorstore,text width=15em] at ( 7, -1) (language)   {Language\\OSTRICH Store};
     
     % Queries
     \draw[->,thick](-3,5) to (-3,3);
