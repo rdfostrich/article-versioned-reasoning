@@ -10,6 +10,8 @@ Querying can however only get you so far.
 In order to make sense of versioned data,
 and to derive new knowledge,
 we need to be able to _reason_ over this data.
+<div style="color: red">Miel: Why?</div>
+
 <!-- Task         -->
 In order to achieve this,
 we explore fundamental concepts on _semantic querying_ of versioned datasets
