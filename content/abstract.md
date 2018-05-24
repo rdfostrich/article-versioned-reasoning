@@ -1,7 +1,7 @@
 ## Abstract
 
 <!-- Context      -->
-RDF archives are used to store different versions of Linked Datasets
+RDF archives are used to store different versions of Linked Datasets.
 The ability of querying over these versions is an active area of research,
 and allows for basic insights to be discovered,
 such as tracking the evolution of certain things in datasets.
@@ -10,8 +10,17 @@ Querying can however only get you so far.
 In order to make sense of versioned data,
 and to derive new knowledge,
 we need to be able to _reason_ over this data.
-<div style="color: red">Miel: Why?</div>
-
+<span class="comment" data-author="MVS">Why?</span>
+<span class="comment" data-author="RV">
+Yeah, I'm with Miel on this one.
+It reads too much tech-driven.
+Furthermore, we can discuss about whether reasoning creates new knowledge
+versus whether it reshapes or derives existing knowledge;
+i.e., in the case of reasoning for one ontology to another,
+we're just explicitizing existing knowledge.
+So motivate better: why do we need reasoning?
+(ontology transformations are a good case actually)
+</span>
 <!-- Task         -->
 In order to achieve this,
 we explore fundamental concepts on _semantic querying_ of versioned datasets
