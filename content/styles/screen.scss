@@ -143,6 +143,9 @@ main, #appendix {
         position: absolute;
         display: block;
       }
+      ul, ol {
+        margin: 0;
+      }
     }
   }
   ul {
