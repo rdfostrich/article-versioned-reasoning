@@ -4,20 +4,23 @@
 ### RDF Archiving
 
 An [_RDF archive_](cite:cites bear) has been defined by Fernández et al. as follows:
-_An RDF archive graph A is a set of version-annotated triples._
-Where a _version-annotated triple_ _(s, p, o):\[i\]_ is _an RDF triple (s, p, o) with a label i ∈ N representing the version in which this triple holds._
-The set of all [RDF triples](cite:cites spec:rdf) is defined as _(U ∪ B) × U × (U ∪ B ∪ L)_,
-where _U_, _B_, and _L_, respectively represent the disjoint, infinite sets of URIs, blank nodes, and literals.
-Finally,
-_an RDF version of an RDF archive A at snapshot i is the RDF graph A(i) = {(s, p, o)|(s, p, o):\[i\] ∈ A}._
+
+> An RDF archive graph A is a set of version-annotated triples,
+> where a _version-annotated triple_ _(s, p, o):\[i\]_ is an RDF triple (s, p, o) with a label i ∈ N representing the version in which this triple holds.
+> The set of all [RDF triples](cite:cites spec:rdf) is defined as _(U ∪ B) × U × (U ∪ B ∪ L)_,
+> where <var>U</var>, <var>B</var>, and <var>L</var>, respectively represent the disjoint, infinite sets of URIs, blank nodes, and literals.
+> Finally,
+> an RDF version of an RDF archive <var>A</var> at snapshot <var>i</var> is the RDF graph _A(i) = {(s, p, o)|(s, p, o):\[i\] ∈ A}._
+
 For the remainder of this article, we use the shorthand notation _A<sub>i</sub>_ to refer to the RDF version _A(i)_.
+
+<span class="comment" data-author="RV">We need some thought on styling formulas. I'd surround variables (within text) with &lt;var&gt;; the main problem is the italicized ∪ which resembles U too closely.</span>
 
 ### Versioned Query Atoms
 
 To cover the retrieval demands in RDF archiving,
 [five foundational query types were introduced](cite:cites bear),
 which are referred to as _query atoms_.
-
 These query atoms are based on
 the [RDF data model](cite:cites spec:rdf) and [SPARQL query language](cite:cites spec:sparqllang).
 In these models, a _triple pattern_ is defined as _(U ∪ V) × (U ∪ V) × (U ∪ L ∪ V)_, with _V_ being the infinite set of variables.
@@ -44,13 +47,13 @@ consecutively different results.<br />
 Formally: _{(i, j) | i,j ∈ ℕ, i < j, DM(Q, A(i), A(j)) = (Ω<sup>+</sup>, Ω<sup>−</sup>), Ω<sup>+</sup> ∪ Ω<sup>−</sup> ≠ ∅, ∄ k ∈ ℕ : i < k < j}_.<br />
 Example: _At what times was book X returned or taken from the library?_
 
+<span class="comment" data-author="RV">Is this the moment to refer to our own previous work? (not strictly necessary)</span>
+
 ### Semantic Diff
 
 Völkel et al. introduce the concept of a [_semantic diff_](cite:cites semversion)
 that takes the semantics of an ontology language into account when calculating the diff,
 which is not the case for a regular _structural diff_.
-The difference between these two types of diff will be explained hereafter.
-
 As an example, consider the dataset with two versions from [](#semdiff-dataset-example).
 The typical, structural diff just takes the difference between these two versions at triple level,
 without taking into account the meaning of the triples.
@@ -82,5 +85,7 @@ The semantic diff between the two versions in [](#semdiff-dataset-example).
 </figcaption>
 </figure>
 
-Formally, a _semantic diff_ (_d<sub>l</sub>(A,B)_) of two sets of RDF triples (_A_ and _B_) is defined as _d<sub>l</sub>(A,B) = (+<sub>l</sub>(A,B),−<sub>l</sub>(A,B))_, with _+<sub>l</sub>(A, B) = s<sub>l</sub>(B) \ (s<sub>l</sub>(A) ∩ s<sub>l</sub>(B))_ and _−<sub>l</sub>(A, B) = s<sub>l</sub>(A) \ (s<sub>l</sub>(A) ∩ s<sub>l</sub>(B))_.
-The _semantic closure_ (_s<sub>l</sub>(A)_) of a set of RDF triples _A_ is the set of all statements that can be concluded from the statements in _A_ under the semantics of the RDF-based ontology language _l_.
+The _semantic closure_ _s<sub>l</sub>(A)_ of a set of RDF triples _A_
+is the set of all statements that can be concluded from the statements in _A_ under the semantics of the RDF-based ontology language _l_.
+A _semantic diff_ _d<sub>l</sub>(A,B)_ of two sets of RDF triples (_A_ and _B_) is then formally defined as _d<sub>l</sub>(A,B) = (+<sub>l</sub>(A,B),−<sub>l</sub>(A,B))_, with _+<sub>l</sub>(A, B) = s<sub>l</sub>(B) \ (s<sub>l</sub>(A) ∩ s<sub>l</sub>(B))_ and _−<sub>l</sub>(A, B) = s<sub>l</sub>(A) \ (s<sub>l</sub>(A) ∩ s<sub>l</sub>(B))_.
+<span class="comment" data-author="RV">Your def or someone else's? Mention in either case.</span>
