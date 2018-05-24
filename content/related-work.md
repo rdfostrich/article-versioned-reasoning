@@ -17,11 +17,13 @@ that takes the semantics of an ontology language into account when calculating t
 as opposed to a traditional _structural diff_.
 This concept will be explained in more detail in [](#fundamentals).
 <span class="comment" data-author="RV">Delta of our work?</span>
+<span class="comment" data-author="MVS">The text above can also be more concise. And what about: [https://www.emeraldinsight.com/doi/abs/10.1108/17440080910983556](https://www.emeraldinsight.com/doi/abs/10.1108/17440080910983556), [https://www.worldscientific.com/doi/abs/10.1142/S0218194012500040](https://www.worldscientific.com/doi/abs/10.1142/S0218194012500040), [https://onlinelibrary.wiley.com/doi/full/10.1111/exsy.12157](https://onlinelibrary.wiley.com/doi/full/10.1111/exsy.12157), [http://ceur-ws.org/Vol-1376/LDQ2015_paper_06.pdf](http://ceur-ws.org/Vol-1376/LDQ2015_paper_06.pdf), [https://www.tandfonline.com/doi/abs/10.1080/12460125.2017.1252230](https://www.tandfonline.com/doi/abs/10.1080/12460125.2017.1252230). Any relation to RDF change detection and Ontology versioning?</span>
 
 [Huang et al.](cite:cites more) propose a reasoning framework over a versioned ontology,
 which is based on a temporal logic approach.
 They provide a prototypical implementation of their framework as the MORE system.
 <span class="comment" data-author="RV">Diff with our work?</span>
+<span class="comment" data-author="MVS">This ref is from 2008 and has 88 citations. Sure none of them is related?</span>
 
 ### Stream Processing
 
@@ -55,3 +57,4 @@ which can be referred to as [Ontology-Based Query Answering (OBQA)](cite:cites o
 At the time of writing, no systems exist yet that can offer OBQA on top of _versioned_ RDF datasets,
 which is the gap we aim to fill with this work.
 <span class="comment" data-author="RV">maybe a small insight into what OBQA is in the context of versioning, and why it is different? (or a pointer to a next paragraph that explains this)</span>
+<span class="comment" data-author="MVS">Isn't SPARQL entailment relevant as well?</span>

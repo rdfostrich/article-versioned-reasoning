@@ -13,6 +13,8 @@ To remain in line with the definitions on RDF archiving as listed in [](#fundame
 we adapt the semantic closure definition by Völkel et al. as follows:
 _The semantic closure s(A<sub>i</sub>, L<sub>j</sub>) of a version V<sub>i</sub> is the set of all triples that can be inferred from the triples in A<sub>i</sub> under the semantics of the RDF-based ontology language L<sub>j</sub>._
 
+<span class="comment" data-author="MVS">Why do you redefine it and not extend it, like Versioned Semantic Closure (you do this for atoms)? Why is there no (alternative) _<sub>l</sub>_ here?</span>
+
 In this definition, we consider the RDF-based ontology language l to represent an RDF archive as well,
 for which we use the notation _L<sub>j</sub>_ to refer to the RDF version _j_ of the archive _L_.
 
@@ -27,6 +29,8 @@ All examples apply to the use case of a cat shelter
 that makes use of an evolving ontology of cat species.
 
 The semantic extension of the five versioned query atoms are defined as follows:
+
+<span class="comment" data-author="MVS">Get rid of the nested list?</span>
 
 1. **Semantic version materialization (S-VM)** retrieves data using a query _Q_
     targeted at a single version _A<sub>i</sub>_ in a single ontology version _L<sub>j</sub>_.<br />

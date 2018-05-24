@@ -15,6 +15,7 @@ An [_RDF archive_](cite:cites bear) has been defined by Fernández et al. as fol
 For the remainder of this article, we use the shorthand notation _A<sub>i</sub>_ to refer to the RDF version _A(i)_.
 
 <span class="comment" data-author="RV">We need some thought on styling formulas. I'd surround variables (within text) with &lt;var&gt;; the main problem is the italicized ∪ which resembles U too closely.</span>
+<span class="comment" data-author="MVS">I think you can get rid of 3.1 and merge it in 3.2</span>
 
 ### Versioned Query Atoms
 
