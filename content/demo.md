@@ -16,9 +16,7 @@ namely, S-VM, S-DM and S-VQ triple pattern queries.
 As can be seen in [](#architecture), our semantic layer internally uses two OSTRICH stores,
 one for the versioned dataset, and one for the versioned language.
 
-<span class="comment" data-author="MVS">backwards rule-based reasoners are many things, but not simple ;p</span>
-
-Using a simple backwards rule-based reasoner,
+As a backwards rule-based reasoner,
 this semantic layer infers additional triples for each S-VM, S-DM or S-VQ query.
 Rules can be provided in the [Notation 3 syntax](cite:cites n3) at query time.
 It does this through the following steps:
@@ -74,13 +72,10 @@ while the derived dataset contains 31,761 triples, which is a reduction of 35,07
 for the S-VM, S-DM and S-VQ queries.
 The table columns indicate the following:
 
-<span class="comment" data-author="MVS">Explain "semantic layer"</span>
-
-
 * _Query_: The subject of the triple pattern that is queried.
 * _Original_: Execution time of the query against the original BEAR-B-daily dataset.
-* _Reduced_: Execution of the query against the derived BEAR-B-daily dataset, without semantic layer.
-* _Inferred_: Execution of the query against the derived BEAR-B-daily dataset, with semantic layer.
+* _Reduced_: Execution of the query against the derived BEAR-B-daily dataset, without inference from our semantic layer.
+* _Inferred_: Execution of the query against the derived BEAR-B-daily dataset, with inference using our semantic layer.
 * _Inference queries_: The number of queries against the OSTRICH store that were performed by the semantic layer.
 * _Inferred normalized _: _Inferred_ execution time divided by the number of _inference queries_.
 

@@ -7,16 +7,13 @@ similar to the structural diff to semantic diff extension introduced by Völkel 
 More concretely, we will extend these five query atoms with parameters for _language versioning_,
 instead of only _dataset versioning_.
 
-### Semantic Closure
+### Versioned Semantic Closure
 
 To remain in line with the definitions on RDF archiving as listed in [](#fundamentals),
-we adapt the semantic closure definition by Völkel et al. as follows:
-_The semantic closure s(A<sub>i</sub>, L<sub>j</sub>) of a version V<sub>i</sub> is the set of all triples that can be inferred from the triples in A<sub>i</sub> under the semantics of the RDF-based ontology language L<sub>j</sub>._
-
-<span class="comment" data-author="MVS">Why do you redefine it and not extend it, like Versioned Semantic Closure (you do this for atoms)? Why is there no (alternative) _<sub>l</sub>_ here?</span>
-
-In this definition, we consider the RDF-based ontology language l to represent an RDF archive as well,
-for which we use the notation _L<sub>j</sub>_ to refer to the RDF version _j_ of the archive _L_.
+we extend the semantic closure definition by Völkel et al. as follows:
+_The versioned semantic closure s(A<sub>i</sub>, L<sub>j</sub>) of a version V<sub>i</sub> is the set of all triples that can be inferred from the triples in A<sub>i</sub> under the semantics of the RDF-based ontology language L<sub>j</sub>._
+In this definition, we consider the RDF-based ontology language <var>l</var> to represent an RDF archive as well,
+for which we use the notation _L<sub>j</sub>_ to refer to the RDF version <var>j</var> of the archive <var>L</var>.
 
 ### Query Atoms
 
