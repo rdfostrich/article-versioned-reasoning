@@ -54,7 +54,8 @@ Example: _At what times was book X returned or taken from the library?_
 
 Völkel et al. introduce the concept of a [_semantic diff_](cite:cites semversion)
 that takes the semantics of an ontology language into account when calculating the diff,
-which is not the case for a regular _structural diff_.
+which is not the case for a regular _structural diff_,
+which calculates which triples have been added and which ones have been removed.
 As an example, consider the dataset with two versions from [](#semdiff-dataset-example).
 The typical, structural diff just takes the difference between these two versions at triple level,
 without taking into account the meaning of the triples.
