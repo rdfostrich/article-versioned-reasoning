@@ -7,9 +7,9 @@ and allows for basic insights to be discovered,
 such as tracking the evolution of certain things in datasets.
 <!-- Need         -->
 Querying can however only get you so far.
-In order to infer logical consequences from existing knowledge,
+In order to _derive_ logical consequences from existing knowledge,
 we need to be able to _reason_ over this data,
-such as the inference using ontologies.
+such as ontology-based inferencing.
 <!-- Task         -->
 In order to achieve this,
 we explore fundamental concepts on _semantic querying_ of versioned datasets
