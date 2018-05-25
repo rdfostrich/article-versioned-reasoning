@@ -15,6 +15,9 @@ namely, S-VM, S-DM and S-VQ triple pattern queries.
 
 As can be seen in [](#architecture), our semantic layer internally uses two OSTRICH stores,
 one for the versioned dataset, and one for the versioned language.
+
+<span class="comment" data-author="MVS">backwards rule-based reasoners are many things, but not simple ;p</span>
+
 Using a simple backwards rule-based reasoner,
 this semantic layer infers additional triples for each S-VM, S-DM or S-VQ query.
 Rules can be provided in the [Notation 3 syntax](cite:cites n3) at query time.
@@ -60,7 +63,7 @@ For S-VM, we query the last version ,
 for S-DM, we query between the first and last version,
 and for S-VQ, we do an intermodal query using the single language version.
 
-The source code of this evaluation can be found on [GitHub](https://github.com/rdfostrich/semantic-ostrich/blob/master/evaluate.js){:.mandatory}
+The source code of this evaluation can be found on [GitHub](https://github.com/rdfostrich/semantic-ostrich/blob/master/evaluate.js){:.mandatory}.
 
 ### Results
 
@@ -70,6 +73,9 @@ while the derived dataset contains 31,761 triples, which is a reduction of 35,07
 [](#results-s-vm), [](#results-s-dm) and [](#results-s-vq) respectively contain the evaluation results
 for the S-VM, S-DM and S-VQ queries.
 The table columns indicate the following:
+
+<span class="comment" data-author="MVS">Explain "semantic layer"</span>
+
 
 * _Query_: The subject of the triple pattern that is queried.
 * _Original_: Execution time of the query against the original BEAR-B-daily dataset.
