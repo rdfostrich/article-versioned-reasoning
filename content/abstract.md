@@ -7,20 +7,9 @@ and allows for basic insights to be discovered,
 such as tracking the evolution of certain things in datasets.
 <!-- Need         -->
 Querying can however only get you so far.
-In order to make sense of versioned data,
-and to derive new knowledge,
-we need to be able to _reason_ over this data.
-<span class="comment" data-author="MVS">Why?</span>
-<span class="comment" data-author="RV">
-Yeah, I'm with Miel on this one.
-It reads too much tech-driven.
-Furthermore, we can discuss about whether reasoning creates new knowledge
-versus whether it reshapes or derives existing knowledge;
-i.e., in the case of reasoning for one ontology to another,
-we're just explicitizing existing knowledge.
-So motivate better: why do we need reasoning?
-(ontology transformations are a good case actually)
-</span>
+In order to infer logical consequences from existing knowledge,
+we need to be able to _reason_ over this data,
+such as the inference using ontologies.
 <!-- Task         -->
 In order to achieve this,
 we explore fundamental concepts on _semantic querying_ of versioned datasets
