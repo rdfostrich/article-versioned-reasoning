@@ -19,7 +19,7 @@ For the remainder of this article, we use the shorthand notation _A<sub>i</sub>_
 
 ### Versioned Query Atoms
 
-To cover the retrieval demands in RDF archiving,
+To cover the retrieval demands in RDF archiving—also known as RDF versioning—,
 [five foundational query types were introduced](cite:cites bear),
 which are referred to as _query atoms_.
 These query atoms are based on
