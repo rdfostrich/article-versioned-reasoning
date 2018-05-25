@@ -5,19 +5,14 @@
 
 An [_RDF archive_](cite:cites bear) has been defined by Fernández et al. as follows:
 
-> An RDF archive graph A is a set of version-annotated triples,
-> where a _version-annotated triple_ _(s, p, o):\[i\]_ is an RDF triple (s, p, o) with a label i ∈ N representing the version in which this triple holds.
+> An RDF archive graph is a set of version-annotated triples,
+> where a _version-annotated triple_ _(s, p, o):\[i\]_ is an RDF triple (s, p, o) with a label i representing the version in which this triple holds.
 > The set of all [RDF triples](cite:cites spec:rdf) is defined as _(U ∪ B) × U × (U ∪ B ∪ L)_,
 > where <var>U</var>, <var>B</var>, and <var>L</var>, respectively represent the disjoint, infinite sets of URIs, blank nodes, and literals.
 > Finally,
 > an RDF version of an RDF archive <var>A</var> at snapshot <var>i</var> is the RDF graph _A(i) = {(s, p, o)|(s, p, o):\[i\] ∈ A}._
 
 For the remainder of this article, we use the shorthand notation _A<sub>i</sub>_ to refer to the RDF version _A(i)_.
-
-<span class="comment" data-author="RV">We need some thought on styling formulas. I'd surround variables (within text) with &lt;var&gt;; the main problem is the italicized ∪ which resembles U too closely.</span>
-<span class="comment" data-author="MVS">I think you can get rid of 3.1 and merge it in 3.2</span>
-
-### Versioned Query Atoms
 
 To cover the retrieval demands in RDF archiving—also known as RDF versioning—,
 [five foundational query types were introduced](cite:cites bear),
@@ -45,10 +40,8 @@ Formally: _VM(Q1, A<sub>i</sub>) ⨝ VM(Q2, A<sub>j</sub>)_.<br />
 Example: _What books were present in the library yesterday and today?_
 5. **Change materialization (CM)** returns a list of versions in which a given query _Q_ produces
 consecutively different results.<br />
-Formally: _{(i, j) | i,j ∈ ℕ, i < j, DM(Q, A(i), A(j)) = (Ω<sup>+</sup>, Ω<sup>−</sup>), Ω<sup>+</sup> ∪ Ω<sup>−</sup> ≠ ∅, ∄ k ∈ ℕ : i < k < j}_.<br />
+Formally: _{(i, j) | i < j, DM(Q, A(i), A(j)) = (Ω<sup>+</sup>, Ω<sup>−</sup>), Ω<sup>+</sup> ∪ Ω<sup>−</sup> ≠ ∅, ∄ k ∈ ℕ : i < k < j}_.<br />
 Example: _At what times was book X returned or taken from the library?_
-
-<span class="comment" data-author="RV">Is this the moment to refer to our own previous work? (not strictly necessary)</span>
 
 ### Semantic Diff
 
@@ -87,7 +80,6 @@ The semantic diff between the two versions in [](#semdiff-dataset-example).
 </figcaption>
 </figure>
 
-The _semantic closure_ _s<sub>l</sub>(A)_ of a set of RDF triples _A_
-is the set of all statements that can be concluded from the statements in _A_ under the semantics of the RDF-based ontology language _l_.
-A _semantic diff_ _d<sub>l</sub>(A,B)_ of two sets of RDF triples (_A_ and _B_) is then formally defined as _d<sub>l</sub>(A,B) = (+<sub>l</sub>(A,B),−<sub>l</sub>(A,B))_, with _+<sub>l</sub>(A, B) = s<sub>l</sub>(B) \ (s<sub>l</sub>(A) ∩ s<sub>l</sub>(B))_ and _−<sub>l</sub>(A, B) = s<sub>l</sub>(A) \ (s<sub>l</sub>(A) ∩ s<sub>l</sub>(B))_.
-<span class="comment" data-author="RV">Your def or someone else's? Mention in either case.</span>
+The _semantic closure_ _s<sub>l</sub>(A)_ of a set of RDF triples <var>A</var>
+is the set of all statements that can be concluded from the statements in <var>A</var> under the semantics of the RDF-based ontology language <var>l</var>.
+A _semantic diff_ _d<sub>l</sub>(A,B)_ of two sets of RDF triples (<var>A</var> and <var>B</var>) is formally defined by Völkel et al. as _d<sub>l</sub>(A,B) = (+<sub>l</sub>(A,B),−<sub>l</sub>(A,B))_, with _+<sub>l</sub>(A, B) = s<sub>l</sub>(B) \ (s<sub>l</sub>(A) ∩ s<sub>l</sub>(B))_ and _−<sub>l</sub>(A, B) = s<sub>l</sub>(A) \ (s<sub>l</sub>(A) ∩ s<sub>l</sub>(B))_.

@@ -60,13 +60,13 @@ The semantic extension of the five versioned query atoms are defined as follows:
     Example: _Which African wild cats were in the shelter yesterday (according to last year's classification) and the day before (according to the current classification)?_
 5. **Semantic change materialization (S-CM)**
     1. **Semantic intermodal and interontological change materialization (MOS-CM)** returns a list of consecutive archive and ontology versions in which a given query _Q_ produces different results.<br />
-        Formally: _S-CV(Q, A, L) = {(i, j, k, l) | i, j, k, l ∈ ℕ, i < j, k < l, S-DM(Q, A<sub>i</sub>, A<sub>j</sub>, L<sub>k</sub>, L<sub>l</sub>) = (Ω<sup>+</sup>, Ω<sup>−</sup>), Ω<sup>+</sup> ∪ Ω<sup>−</sup> ≠ ∅, ∄ a ∈ ℕ : i < a < j, ∄ b ∈ ℕ : k < b < l}_<br />
+        Formally: _S-CV(Q, A, L) = {(i, j, k, l) | i < j, k < l, S-DM(Q, A<sub>i</sub>, A<sub>j</sub>, L<sub>k</sub>, L<sub>l</sub>) = (Ω<sup>+</sup>, Ω<sup>−</sup>), Ω<sup>+</sup> ∪ Ω<sup>−</sup> ≠ ∅, ∄ a ∈ ℕ : i < a < j, ∄ b ∈ ℕ : k < b < l}_<br />
         Example: _At what times and in which classification did Bob become an African wild cat?_
     2. **Semantic intermodal change materialization (MS-CM)** returns a list of consecutive archive versions in which a given query _Q_ produces different results between two ontology versions.<br />
-        Formally: _S-CV(Q, A, L<sub>k</sub>, L<sub>l</sub>) = {(i, j) | i, j ∈ ℕ, i < j, S-DM(Q, A<sub>i</sub>, A<sub>j</sub>, L<sub>k</sub>, L<sub>l</sub>) = (Ω<sup>+</sup>, Ω<sup>−</sup>), Ω<sup>+</sup> ∪ Ω<sup>−</sup> ≠ ∅, ∄ a ∈ ℕ : i < a < j, ∄ b ∈ ℕ : k < b < l}_<br />
+        Formally: _S-CV(Q, A, L<sub>k</sub>, L<sub>l</sub>) = {(i, j) | i < j, S-DM(Q, A<sub>i</sub>, A<sub>j</sub>, L<sub>k</sub>, L<sub>l</sub>) = (Ω<sup>+</sup>, Ω<sup>−</sup>), Ω<sup>+</sup> ∪ Ω<sup>−</sup> ≠ ∅, ∄ a ∈ ℕ : i < a < j, ∄ b ∈ ℕ : k < b < l}_<br />
         Example: _At what times did Bob become an African wild cat between last year's and today's classification?_
     3. **Semantic interontological change materialization (MS-CM)** returns a list of consecutive language versions in which a given query _Q_ produces different results between two dataset versions.<br />
-        Formally: _S-CV(Q, A<sub>i</sub>, A<sub>j</sub>, L) = {(k, l) | k, l ∈ ℕ, k < l, S-DM(Q, A<sub>i</sub>, A<sub>j</sub>, L<sub>k</sub>, L<sub>l</sub>) = (Ω<sup>+</sup>, Ω<sup>−</sup>), Ω<sup>+</sup> ∪ Ω<sup>−</sup> ≠ ∅, ∄ a ∈ ℕ : i < a < j, ∄ b ∈ ℕ : k < b < l}_<br />
+        Formally: _S-CV(Q, A<sub>i</sub>, A<sub>j</sub>, L) = {(k, l) | k < l, S-DM(Q, A<sub>i</sub>, A<sub>j</sub>, L<sub>k</sub>, L<sub>l</sub>) = (Ω<sup>+</sup>, Ω<sup>−</sup>), Ω<sup>+</sup> ∪ Ω<sup>−</sup> ≠ ∅, ∄ a ∈ ℕ : i < a < j, ∄ b ∈ ℕ : k < b < l}_<br />
         Example: _In which classification versions did Bob become an African wild cat between yesterday and today?_
 
 ### Query Atom Derivations
