@@ -46,6 +46,8 @@ and is available under the MIT license.
 In order to evaluate the performance of our semantic layer,
 we executed several queries with inferencing of `rdfs:subClassOf` relationships
 within the BEAR-B-daily dataset from the [BEAR benchmark](cite:cites bear).
+The BEAR benchmark evaluates using triple pattern queries,
+which form the basis of more expressive query evaluation.
 
 To achieve this, we created a derived version of this BEAR-B-daily dataset
 where we removed all `rdf:type` relationships from instances to classes that can be inferred
@@ -57,7 +59,7 @@ our evaluation excludes versioning of the language.
 As OSTRICH only supports VM, DM and VQ triple pattern queries,
 we only evaluate their respective semantic extension,
 always using the single language version.
-For S-VM, we query the last version ,
+For S-VM, we query the last version,
 for S-DM, we query between the first and last version,
 and for S-VQ, we do an intermodal query using the single language version.
 
@@ -77,7 +79,7 @@ The table columns indicate the following:
 * _Reduced_: Execution of the query against the derived BEAR-B-daily dataset, without inference from our semantic layer.
 * _Inferred_: Execution of the query against the derived BEAR-B-daily dataset, with inference using our semantic layer.
 * _Inference queries_: The number of queries against the OSTRICH store that were performed by the semantic layer.
-* _Inferred normalized _: _Inferred_ execution time divided by the number of _inference queries_.
+* _Inferred normalized_: _Inferred_ execution time divided by the number of _inference queries_.
 
 The results show that the backwards reasoner within our prototype
 requires almost eight queries to the OSTRICH stores on average for this dataset.
@@ -90,7 +92,7 @@ The queries to the OSTRICH stores form the main bottleneck.
 | dbr:Palazzo_Parisio_(Valletta) | 0.56 | 0.25 | 2.51 | 10 | 0.25 |
 | dbr:Singaporean_general_election,_2015 | 0.47 | 0.21 | 2.26 | 10 | 0.23 |
 | dbr:What_Do_You_Mean? | 0.63 | 0.22 | 1.76 | 9 | 0.20 |
-| dbr:Dancing_with_the_Stars_(U.S._season_21) | 0.58 | 0.23 | 1.55 | 6 | 0.26 |
+| dbr:Dancing_with_the_Stars_... | 0.58 | 0.23 | 1.55 | 6 | 0.26 |
 | dbr:Doctor_Who_(series_9) | 0.33 | 0.15 | 0.97 | 6 | 0.16 |
 | dbr:My_Little_Pony... | 0.15 | 0.09 | 0.94 | 7 | 0.13 |
 | dbr:2015 | 0.26 | 0.12 | 0.89 | 6 | 0.15 |
@@ -109,7 +111,7 @@ using the first language version for an 7 S?? triple patterns.
 | dbr:Palazzo_Parisio_(Valletta) | 0.45 | 0.21 | 3.32 | 10 | 0.33 |
 | dbr:Singaporean_general_election,_2015 | 0.39 | 0.18 | 2.27 | 10 | 0.23 |
 | dbr:What_Do_You_Mean? | 0.34 | 0.13 | 2.17 | 9 | 0.24 |
-| dbr:Dancing_with_the_Stars_(U.S._season_21) | 0.40 | 0.20 | 1.06 | 6 | 0.18 |
+| dbr:Dancing_with_the_Stars_... | 0.40 | 0.20 | 1.06 | 6 | 0.18 |
 | dbr:Doctor_Who_(series_9) | 0.18 | 0.12 | 1.14 | 6 | 0.19 |
 | dbr:My_Little_Pony... | 0.12 | 0.11 | 2.47 | 7 | 0.35 |
 | dbr:2015 | 0.36 | 0.18 | 1.84 | 6 | 0.31 |
@@ -128,7 +130,7 @@ both using the first language version for 7 S?? triple patterns.
 | dbr:Palazzo_Parisio_(Valletta) | 0.65 | 0.29 | 2.48 | 10 | 0.25 |
 | dbr:Singaporean_general_election,_2015 | 0.83 | 0.28 | 2.16 | 10 | 0.22 |
 | dbr:What_Do_You_Mean? | 0.58 | 0.17 | 1.24 | 9 | 0.14 |
-| dbr:Dancing_with_the_Stars_(U.S._season_21) | 0.43 | 0.27 | 0.96 | 6 | 0.16 |
+| dbr:Dancing_with_the_Stars_... | 0.43 | 0.27 | 0.96 | 6 | 0.16 |
 | dbr:Doctor_Who_(series_9) | 0.26 | 0.12 | 0.75 | 6 | 0.13 |
 | dbr:My_Little_Pony... | 0.13 | 0.09 | 1.06 | 7 | 0.15 |
 | dbr:2015 | 0.24 | 0.10 | 1.17 | 6 | 0.20 |

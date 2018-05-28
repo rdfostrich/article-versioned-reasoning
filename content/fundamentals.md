@@ -1,6 +1,8 @@
 ## Fundamentals
 {:#fundamentals}
 
+In this section, we introduce the fundamental concepts on RDF archiving and the semantic diff.
+
 ### RDF Archiving
 
 An [_RDF archive_](cite:cites bear) has been defined by Fernández et al. as follows:

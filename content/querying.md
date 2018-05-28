@@ -27,8 +27,6 @@ that makes use of an evolving ontology of cat species.
 
 The semantic extension of the five versioned query atoms are defined as follows:
 
-<span class="comment" data-author="MVS">Get rid of the nested list?</span>
-
 1. **Semantic version materialization (S-VM)** retrieves data using a query _Q_
     targeted at a single version _A<sub>i</sub>_ in a single ontology version _L<sub>j</sub>_.<br />
     Formally: _S-VM(Q, A<sub>i</sub>, L<sub>j</sub>) = \[\[Q\]\]<sub>s(A<sub>i</sub>, L<sub>j</sub>)</sub>_<br />

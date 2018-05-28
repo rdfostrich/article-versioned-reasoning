@@ -1,7 +1,7 @@
 ## Conclusions
 {:#conclusions}
 
-In this work, we introduced the fundamental concepts on how to evaluate _semantic_ queries over versioned Linked Datasets.
+In this work, we introduced fundamental concepts on how to evaluate _semantic_ queries over versioned Linked Datasets.
 For this, we extended existing _structural_ versioned query atoms by coupling them with _language versioning_ and _reasoning_.
 
 Our wrapper-based prototypical implementation of these semantic extensions shows

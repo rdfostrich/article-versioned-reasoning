@@ -7,7 +7,7 @@ In this section, we discuss the related work in these domains.
 
 ### Semantic Versioning
 
-In the context of this paper, we consider semantic version to be
+In the context of this paper, we consider semantic versioning to be
 _the logical reasoning over a collection of dataset versions and ontologies_.
 On the one hand, this concerns the [management of multiple versions of datasets](cite:cites bear,ostrich,diachronql,xrdf3x),
 and on the other hand, the [reasoning over these versions](cite:cites semversion,more).

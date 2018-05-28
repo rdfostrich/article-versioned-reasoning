@@ -12,7 +12,7 @@ This allows _reasoners_ to interpret this data, and use this encoded meaning to 
 Reasoning within static RDF data and temporal RDF streams are already well-established research domains.
 Reasoning over RDF versions is however still an underexplored domain.
 Some preliminary work has already been done in the domain of reasoning over RDF versions.
-In one work, the calculation of [semantic differences](cite:cites semversion) between versions has been investigated.
+In one work for example, the calculation of [semantic differences](cite:cites semversion) between versions has been investigated.
 In another work, [reasoning with multi-version ontologies](cite:cites more) was investigated.
 These works only cover very specific parts of the reasoning demands within RDF versioning.
 
