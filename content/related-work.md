@@ -63,3 +63,8 @@ that define how such inferences can be achieved at query-time.
 At the time of writing, no systems exist yet that can offer OBQA on top of _versioned_ RDF datasets.
 Those systems would require new querying capabilities specific to versioning,
 which will be introduced in the next section.
+
+<span class="placeholder printonly">
+<span style="display: block; height: 10em;"></span>
+<!-- This is a dummy placeholder for the ACM first page footnote -->
+</span>
