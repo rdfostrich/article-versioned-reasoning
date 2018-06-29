@@ -1,0 +1,55 @@
+Congratulations! Your paper, titled The Fundamentals of Semantic Versioned Querying, has been accepted for presentation at SSWS 2018 (http://www.ssws-ws.org/SSWS2018), co-located with ISWC 2018. 
+
+Please find here reviewers' feedback, and update your submission accordingly. The camera ready version is due by July 23, 2018. 
+
+Best regards, 
+SSWS 2018 PC Chairs. 
+
+
+----------------------- REVIEW 1 --------------------- 
+PAPER: 3 
+TITLE: The Fundamentals of Semantic Versioned Querying 
+AUTHORS: Ruben Taelman, Hideaki Takeda, Miel Vander Sande and Ruben Verborgh 
+
+Overall evaluation: 1 (weak accept) 
+
+----------- Overall evaluation ----------- 
+The authors formalize semantic versioned querying: extension of query atoms, reasoning related with RDF versions. Their wrapper-based prototype shows us how semantic versioning goes well: finding all versions in which a certain fact can be inferred and storage space reduction by inferring facts. 
+
+Related work is described well from three viewpoints: semantic versioning, stream processing and ontology-based data access. The formalization in Section 3 and 4 is described precisely. 
+
+However, the prototype measures just reasoning run time and need more measurements related with semantic versioning. 
+
+
+----------------------- REVIEW 2 --------------------- 
+PAPER: 3 
+TITLE: The Fundamentals of Semantic Versioned Querying 
+AUTHORS: Ruben Taelman, Hideaki Takeda, Miel Vander Sande and Ruben Verborgh 
+
+Overall evaluation: 1 (weak accept) 
+
+----------- Overall evaluation ----------- 
+The paper defines basic tasks for querying versioned RDF datasets w.r.t. a (also versioned) ontology. It briefly presents their prototypical implementation based on a system which supports querying versioned RDF datasets without reasoning. It also talks about some very preliminary evaluation on small data (tens of thousands of triples). 
+
+I feel the paper's title and introduction try to create an impression that the presented work in more fundamental than it actually is. In fact I'd say that the contributions are fairly thin: the authors take the existing notions of querying versioned RDF datasets and extend it slightly by considering reasoning (which they call semantic querying). That's definitely worth of exploration but I don't think it's foundational work. Extending query results under reasoning is well-studied area and it's rather straightforward to adapt it to versioned data. 
+
+Regarding the technical contributions, the paper appears sound but I'm unclear why the authors decided not to adapt an existing system which already does querying with reasoning to their settings with versions (that could a query rewriting system supporting OWL QL or a rule-based system supporting OWL RL or anything else). From what I can tell from Section 4, it seems possible to reduce all query problems to (sets of) standard SPARQL queries under some entailment regime (RDFS, probably). For example, S-VM is particularly trivial: one can take a specific version of the data, a specific version of the ontology, and simply run the query. That'd be much easier to present and use in experiments than implementing their own reasoning algorithm (Section 5.1), which is presented in a rather vague fashion. It's unclear for which ontology languages it works i.e. provides the soundness and completeness guarantees. 
+
+A relative minor remark: I don't see a reason why the cross-join should be a foundational query atom. It can be defined in terms of other atoms and the standard relational join operator. 
+
+Section 5.1 should use the term "ontology" instead of "language". Versioned language sounds strange and misleading. 
+
+
+----------------------- REVIEW 3 --------------------- 
+PAPER: 3 
+TITLE: The Fundamentals of Semantic Versioned Querying 
+AUTHORS: Ruben Taelman, Hideaki Takeda, Miel Vander Sande and Ruben Verborgh 
+
+Overall evaluation: 1 (weak accept) 
+
+----------- Overall evaluation ----------- 
+The authors propose a formalization of semantic querying over versioned RDF datasets. They built upon the work by Fernandez et al. on versioned query over RDF datasets, specifically by adding semantic extensions to the 5 forms of query atoms over versioned RDF data. The authors also discuss preliminary implementation of subset of the proposed query extensions, namely S-VM, S-DM, and S-VQ pattern queries. 
+
+This is a nice piece of preliminary work with good potential to be extended further. What is lacking in the paper, however, is an explanation how the three aforementioned pattern queries are actually evaluated. What are the rules for the given triple pattern? This is a key information that is missing from the paper. 
+
+Due to this reason, I would rate the paper as no more than weak accept. 
