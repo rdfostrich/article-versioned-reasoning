@@ -1,0 +1,848 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>The Fundamentals of Semantic Versioned Querying</title>
+  <link rel="stylesheet" media="screen" href="styles/screen.css">
+  <link rel="stylesheet" media="print"  href="styles/print.css">
+</head>
+<body prefix="cc: https://creativecommons.org/ns# rdfs: http://www.w3.org/2000/01/rdf-schema#">
+  <header>
+  <h1 id="the-fundamentals-of-semantic-versioned-querying">The Fundamentals of Semantic Versioned Querying</h1>
+
+  <ul id="authors">
+    <li><a href="http://www.rubensworks.net/" typeof="http://xmlns.com/foaf/0.1/Person" resource="http://www.rubensworks.net/#me">Ruben Taelman</a><a href="#idlab"><sup>1</sup></a></li>
+    <li><a href="http://www-kasm.nii.ac.jp/~takeda/" typeof="http://xmlns.com/foaf/0.1/Person" resource="#hideaki_takeda">Hideaki Takeda</a><a href="#nii"><sup>2</sup></a></li>
+    <li><a href="#" typeof="http://xmlns.com/foaf/0.1/Person" resource="https://data.verborgh.org/people/miel_vander_sande">Miel Vander Sande</a><a href="#idlab"><sup>1</sup></a></li>
+    <li><a href="https://ruben.verborgh.org/" typeof="http://xmlns.com/foaf/0.1/Person" resource="https://ruben.verborgh.org/profile/#me">Ruben Verborgh</a><a href="#idlab"><sup>1</sup></a></li>
+  </ul>
+
+  <ul id="affiliations">
+    <li id="idlab"><sup>1</sup>IDLab,
+          Department of Electronics and Information Systems,
+          Ghent University – imec</li>
+    <li id="nii"><sup>2</sup>National Institute of Informatics,
+          Sokendai University</li>
+  </ul>
+
+  <section id="abstract">
+    <h2>Abstract</h2>
+
+    <!-- Context      -->
+    <p>The domain of <span class='abbreviation' title='Resource Description Framework'>RDF</span> versioning concerns itself with the storage of different versions of Linked Datasets.
+The ability of querying over these versions is an active area of research,
+and allows for basic insights to be discovered,
+such as tracking the evolution of certain things in datasets.
+<!-- Need         -->
+Querying can however only get you so far.
+In order to <em>derive</em> logical consequences from existing knowledge,
+we need to be able to <em>reason</em> over this data,
+such as ontology-based inferencing.
+<!-- Task         -->
+In order to achieve this,
+we explore fundamental concepts on <em>semantic querying</em> of versioned datasets
+using ontological knowledge.
+<!-- Object       -->
+In this work, we present these concepts as a semantic extension
+of the existing <span class='abbreviation' title='Resource Description Framework'>RDF</span> versioning concepts that focus on syntactical versioning.
+We remain general and assume that versions do not necessarily
+follow a purely linear temporal relation.
+<!-- Findings     -->
+<!-- Conclusion   -->
+This work lays a foundation for reasoning over <span class='abbreviation' title='Resource Description Framework'>RDF</span> versions from a querying perspective,
+<!-- Perspectives -->
+using which <span class='abbreviation' title='Resource Description Framework'>RDF</span> versioning storage, query and reasoning systems can be designed.</p>
+
+  </section>
+
+</header>
+
+<main>
+  <section id="introduction">
+    <h2>Introduction</h2>
+
+    <p><span class='abbreviation' title='Resource Description Framework'>RDF</span> versioning has been an active area of research
+that looks into storage and querying techniques for different versions of Linked Datasets.
+These versions do not necessarily follow a purely linear temporal relation,
+as multiple different versions or <em>branches</em> of versions could exist at the same time,
+as opposed to <span class='abbreviation' title='Resource Description Framework'>RDF</span> streams <span class="references">[<a href="#ref-1">1</a>]</span>.</p>
+
+    <p>One of the key benefits of <span class='abbreviation' title='Resource Description Framework'>RDF</span> is its ability to encode <em>semantics</em> into the data through the use of ontologies.
+This allows <em>reasoners</em> to interpret this data, and use this encoded meaning to transform and infer knowledge.
+Reasoning within static <span class='abbreviation' title='Resource Description Framework'>RDF</span> data and temporal <span class='abbreviation' title='Resource Description Framework'>RDF</span> streams are already well-established research domains.
+Reasoning over <span class='abbreviation' title='Resource Description Framework'>RDF</span> versions is however still an underexplored domain.
+Some preliminary work has already been done in the domain of reasoning over <span class='abbreviation' title='Resource Description Framework'>RDF</span> versions.
+In one work for example, the calculation of semantic differences <span class="references">[<a href="#ref-2">2</a>]</span> between versions has been investigated.
+In another work, reasoning with multi-version ontologies <span class="references">[<a href="#ref-3">3</a>]</span> was investigated.
+These works only cover very specific parts of the reasoning demands within <span class='abbreviation' title='Resource Description Framework'>RDF</span> versioning.</p>
+
+    <p>For instance, given a versioned dataset,
+it is currently impossible with the existing systems to efficiently find all versions in which a certain fact can be inferred.
+Furthermore, the domain of combining reasoning and querying
+—as is done in Ontology-Based Data Access techniques <span class="references">[<a href="#ref-4">4</a>, <a href="#ref-5">5</a>]</span>—
+within the domain of <span class='abbreviation' title='Resource Description Framework'>RDF</span> versioning remains unexplored.</p>
+
+    <p>In this work, we introduce a general formalization of semantic versioned querying,
+i.e., reasoning within <span class='abbreviation' title='Resource Description Framework'>RDF</span> versioning from the querying perspective,
+For this, we extend the <a property="schema:citation http://purl.org/spar/cito/cites" href="https://aic.ai.wu.ac.at/qadlod/docs/semantics16.pdf">five foundational versioned query types</a> <span class="references">[<a href="#ref-6">6</a>]</span> that were introduced
+to cover the retrieval demands within <span class='abbreviation' title='Resource Description Framework'>RDF</span> versioning.
+We formalize concepts such as reasoning within a single version, version differences, and different versions.
+Furthermore, we present a prototypical implementation of a versioned <span class='abbreviation' title='Resource Description Framework'>RDF</span> store
+that offers basic rule-based reasoning capabilities at query-time.
+This prototype demonstrates the benefits of semantic versioning,
+such as finding all versions in which a certain fact can be inferred,
+and storage space reduction by inferring facts instead of materializing them beforehand.</p>
+
+    <p>The aim of this work is to provide a foundation
+for the future research and development of semantic versioned querying within <span class='abbreviation' title='Resource Description Framework'>RDF</span> stores.
+This will lead to improvements inside domains that require the semantic analysis on Linked Datasets,
+for example for analyzing concept drift <span class="references">[<a href="#ref-7">7</a>]</span>
+or tracking diseases in biomedical datasets <span class="references">[<a href="#ref-8">8</a>]</span> over time.</p>
+
+    <p>This article is structured as follows:
+In the next section, we discuss related work on semantic versioned querying.
+In <a href="#fundamentals">Section 3</a>, we discuss the fundamental concepts on <span class='abbreviation' title='Resource Description Framework'>RDF</span> versioning.
+After that, in <a href="#querying">Section 4</a>, we introduce new foundational semantic versioned query atoms.
+In <a href="#demo">Section 5</a>, we present a proof-of-concept implementation of these atoms with a preliminary evalution.
+Finally, we conclude in <a href="#conclusions">Section 6</a>.</p>
+
+  </section>
+
+  <section id="related-work">
+    <h2>Related Work</h2>
+
+    <p>Semantic versioned querying lies somewhere in between the domains of
+semantic versioning, stream reasoning, and ontology-based data access.
+In this section, we discuss the related work in these domains.</p>
+
+    <h3 id="semantic-versioning">Semantic Versioning</h3>
+
+    <p>In the context of this paper, we consider semantic versioning to be
+<em>the logical reasoning over a collection of dataset versions and ontologies</em>.
+On the one hand, this concerns the <a property="schema:citation http://purl.org/spar/cito/cites" href="https://aic.ai.wu.ac.at/qadlod/docs/semantics16.pdf">management of multiple versions of datasets</a> <span class="references">[<a href="#ref-6">6</a>, <a href="#ref-9">9</a>, <a href="#ref-10">10</a>, <a href="#ref-11">11</a>]</span>,
+and on the other hand, the reasoning over these versions <span class="references">[<a href="#ref-2">2</a>, <a href="#ref-3">3</a>]</span>.</p>
+
+    <p>A lot of research has been done in the area of ontology evolution <span class="references">[<a href="#ref-12">12</a>]</span>,
+i.e., the maintenance of ontologies with respect to domain or requirement changes.
+Some works focus on the <em>management and maintenance</em> of multiple ontology versions <span class="references">[<a href="#ref-13">13</a>]</span>,
+while other look more into <em>applying</em> different ontology versions on datasets <span class="references">[<a href="#ref-2">2</a>, <a href="#ref-3">3</a>]</span>.
+As we focus on <em>reasoning</em> with multiple dataset and ontology versions in this work, we discuss the latter.</p>
+
+    <p>SemVersion <span class="references">[<a href="#ref-2">2</a>]</span> is a system that provides versioning for <span class='abbreviation' title='Resource Description Framework'>RDF</span> ontologies.
+The authors introduce the concept of a <em>semantic diff</em>
+that takes the semantics of an ontology language into account
+when calculating the difference between two dataset versions.
+This concept will be explained in more detail in <a href="#fundamentals">Section 3</a>,
+after which we generalize it in <a href="#querying">Section 4</a> to enable versioning over both the dataset and the ontology.</p>
+
+    <p>Huang et al. <span class="references">[<a href="#ref-3">3</a>]</span> propose a reasoning framework over a versioned ontology,
+which is based on a temporal logic approach.
+They provide a prototypical implementation of their framework as the MORE system.
+The difference with our approach is that we assume non-temporal versions,
+where the relation between versions is not necessarily linear.</p>
+
+    <h3 id="stream-processing">Stream Processing</h3>
+
+    <p>Within the domain of <span class='abbreviation' title='Resource Description Framework'>RDF</span> Stream Processing (<span class='abbreviation' title='RDF Stream Processing'>RSP</span>) <span class="references">[<a href="#ref-14">14</a>]</span>, <em>stream reasoning</em> is defined as
+<q>the logical reasoning in real time on gigantic and inevitably noisy data streams in order to support the decision process of extremely large numbers of concurrent users</q> <span class="references">[<a href="#ref-15">15</a>]</span>.
+<span class='abbreviation' title='RDF Stream Processing'>RSP</span> typically uses the concept of <em>windowing</em> as a scalability measure to select subsets of data streams to perform reasoning over.
+This windowing makes <span class='abbreviation' title='RDF Stream Processing'>RSP</span> similar to <span class='abbreviation' title='Resource Description Framework'>RDF</span> versioning,
+as not only a single dataset has to be taken into account,
+but multiple different parts or versions of the dataset needs to be processed.
+Next to this similarity, there are significant differences between the domains of streaming and versioning
+which elicits a distinction between them.
+For instance, stream elements are temporally identified and sorted,
+while versions are not necessarily temporal, such as hash-based identifiers in version control systems (such as <a property="schema:citation http://purl.org/spar/cito/cites" href="http://git-scm.com">Git</a> <span class="references">[<a href="#ref-16">16</a>]</span>).
+Furthermore, streams typically have a high velocity,
+while versions evolve at a lower rate.
+For example, DBpedia <span class="references">[<a href="#ref-17">17</a>]</span> publishes a new version at a yearly frequency,
+and the <a property="schema:citation http://purl.org/spar/cito/cites" href="https://linkedsoftwaredependencies.org/articles/describing-experiments/"><span class='abbreviation' title='Resource Description Framework'>RDF</span> version of npm</a> <span class="references">[<a href="#ref-18">18</a>]</span> is being generated every day.
+Due to these significant differences regarding ordering and velocity,
+we see the domains of streaming and versioning as distinct, but partially overlapping domains.</p>
+
+    <h3 id="ontology-based-data-access">Ontology-Based Data Access</h3>
+
+    <p>Ontology-Based Data Access (<span class='abbreviation' title='Ontology-Based Data Access'>OBDA</span>) <span class="references">[<a href="#ref-19">19</a>]</span> is a technique that offers a semantic query interface
+on top of a non-semantic datasource using semantic mappings that are applied at query-time.
+Such mappings can for example be defined between <span class='abbreviation' title='Resource Description Framework'>RDF</span> and SQL, using OWL ontologies.
+These datasources are typically incomplete, on top of which semantic mappings can infer additional knowledge through reasoning.
+In this work, we are mainly concerned with the inference aspect at query-time,
+which can be referred to as Ontology-Based Query Answering (<span class='abbreviation' title='Ontology-Based Query Answering'>OBQA</span>) <span class="references">[<a href="#ref-20">20</a>]</span>.
+The <a property="schema:citation http://purl.org/spar/cito/citeAsAuthority" href="https://www.w3.org/TR/2013/REC-sparql11-entailment-20130321/"><span class='abbreviation' title='SPARQL Procotol and RDF Query Language'>SPARQL</span> entailment regimes specification</a> <span class="references">[<a href="#ref-21">21</a>]</span> defines several <em>entailment regimes</em>
+that define how such inferences can be achieved at query-time.
+At the time of writing, no systems exist yet that can offer <span class='abbreviation' title='Ontology-Based Query Answering'>OBQA</span> on top of <em>versioned</em> <span class='abbreviation' title='Resource Description Framework'>RDF</span> datasets.
+Those systems would require new querying capabilities specific to versioning,
+which will be introduced in the next section.</p>
+
+    <p><span class="placeholder printonly">
+<span style="display: block; height: 10em;"></span>
+<!-- This is a dummy placeholder for the ACM first page footnote -->
+</span></p>
+
+  </section>
+
+  <section id="fundamentals">
+    <h2>Fundamentals</h2>
+
+    <p>In this section, we introduce the fundamental concepts on <span class='abbreviation' title='Resource Description Framework'>RDF</span> archiving and the semantic diff.</p>
+
+    <h3 id="rdf-archiving"><span class='abbreviation' title='Resource Description Framework'>RDF</span> Archiving</h3>
+
+    <p>An <a property="schema:citation http://purl.org/spar/cito/cites" href="https://aic.ai.wu.ac.at/qadlod/docs/semantics16.pdf"><em><span class='abbreviation' title='Resource Description Framework'>RDF</span> archive</em></a> <span class="references">[<a href="#ref-6">6</a>]</span> has been defined by Fernández et al. as follows:</p>
+
+    <blockquote>
+      <p>An <span class='abbreviation' title='Resource Description Framework'>RDF</span> archive graph is a set of version-annotated triples,
+where a <em>version-annotated triple</em> <em>(s, p, o):[i]</em> is an <span class='abbreviation' title='Resource Description Framework'>RDF</span> triple (s, p, o) with a label i representing the version in which this triple holds.
+The set of all <a property="schema:citation http://purl.org/spar/cito/cites" href="http://www.w3.org/TR/2014/REC-rdf11-concepts-20140225/"><span class='abbreviation' title='Resource Description Framework'>RDF</span> triples</a> <span class="references">[<a href="#ref-22">22</a>]</span> is defined as <em>(U ∪ B) × U × (U ∪ B ∪ L)</em>,
+where <var>U</var>, <var>B</var>, and <var>L</var>, respectively represent the disjoint, infinite sets of URIs, blank nodes, and literals.
+Finally,
+an <span class='abbreviation' title='Resource Description Framework'>RDF</span> version of an <span class='abbreviation' title='Resource Description Framework'>RDF</span> archive <var>A</var> at snapshot <var>i</var> is the <span class='abbreviation' title='Resource Description Framework'>RDF</span> graph <em>A(i) = {(s, p, o)|(s, p, o):[i] ∈ A}.</em></p>
+    </blockquote>
+
+    <p>For the remainder of this article, we use the shorthand notation <em>A<sub>i</sub></em> to refer to the <span class='abbreviation' title='Resource Description Framework'>RDF</span> version <em>A(i)</em>.</p>
+
+    <p>To cover the retrieval demands in <span class='abbreviation' title='Resource Description Framework'>RDF</span> archiving—also known as <span class='abbreviation' title='Resource Description Framework'>RDF</span> versioning—,
+<a property="schema:citation http://purl.org/spar/cito/cites" href="https://aic.ai.wu.ac.at/qadlod/docs/semantics16.pdf">five foundational query types were introduced</a> <span class="references">[<a href="#ref-6">6</a>]</span>,
+which are referred to as <em>query atoms</em>.
+These query atoms are based on
+the <a property="schema:citation http://purl.org/spar/cito/cites" href="http://www.w3.org/TR/2014/REC-rdf11-concepts-20140225/"><span class='abbreviation' title='Resource Description Framework'>RDF</span> data model</a> <span class="references">[<a href="#ref-22">22</a>]</span> and <a property="schema:citation http://purl.org/spar/cito/cites" href="http://www.w3.org/TR/2013/REC-sparql11-query-20130321/"><span class='abbreviation' title='SPARQL Procotol and RDF Query Language'>SPARQL</span> query language</a> <span class="references">[<a href="#ref-23">23</a>]</span>.
+In these models, a <em>triple pattern</em> is defined as <em>(U ∪ V) × (U ∪ V) × (U ∪ L ∪ V)</em>, with <em>V</em> being the infinite set of variables.
+A set of triple patterns is called a <em>Basic Graph Pattern</em>, which forms the basis of a <span class='abbreviation' title='SPARQL Procotol and RDF Query Language'>SPARQL</span> query.
+The evaluation of a <span class='abbreviation' title='SPARQL Procotol and RDF Query Language'>SPARQL</span> query <em>Q</em> on an <span class='abbreviation' title='Resource Description Framework'>RDF</span> graph <em>G</em> containing <span class='abbreviation' title='Resource Description Framework'>RDF</span> triples,
+produces a bag of solution mappings <em>[[Q]]<sub>G</sub></em>.</p>
+
+    <p>The five foundational query atoms introduced by Fernández et al. are the following:</p>
+
+    <ol>
+      <li><strong>Version materialization (<span class='abbreviation' title='Version materialization'>VM</span>)</strong> retrieves data using a query <em>Q</em> targeted at a single version <em>A<sub>i</sub></em>.<br />
+Formally: <em><span class='abbreviation' title='Version materialization'>VM</span>(Q, A<sub>i</sub>) = [[Q]]<sub>A<sub>i</sub></sub></em>.<br />
+Example: <em>Which books were present in the library yesterday?</em></li>
+      <li><strong>Delta materialization (<span class='abbreviation' title='Delta materialization'>DM</span>)</strong> retrieves query <em>Q</em>’s result change sets between two versions <em>A<sub>i</sub></em> and <em>A<sub>j</sub></em>.<br />
+Formally: <em><span class='abbreviation' title='Delta materialization'>DM</span>(Q, A<sub>i</sub>, A<sub>j</sub>)=(Ω<sup>+</sup>, Ω<sup>−</sup>). With Ω<sup>+</sup> = [[Q]]<sub>A<sub>i</sub></sub> \ [[Q]]<sub>A<sub>j</sub></sub> and Ω<sup>−</sup> = [[Q]]<sub>A<sub>j</sub></sub> \ [[Q]]<sub>A<sub>i</sub></sub></em>.<br />
+Example: <em>Which books were returned or taken from the library between yesterday and now?</em></li>
+      <li><strong>Version query (<span class='abbreviation' title='Version query'>VQ</span>)</strong> annotates query <em>Q</em>’s results with the versions (of <span class='abbreviation' title='Resource Description Framework'>RDF</span> archive A) in which they are valid.<br />
+Formally: <em><span class='abbreviation' title='Version query'>VQ</span>(Q, A) = {(Ω, W) | W = {A(i) | Ω=[[Q]]<sub>A(i)</sub>, i ∈ N} ∧ Ω ≠ ∅}</em>.<br />
+Example: <em>At what times was book X present in the library?</em></li>
+      <li><strong>Cross-version join (<span class='abbreviation' title='Cross-version join'>CV</span>)</strong> joins the results of two queries (<em>Q1</em> and <em>Q2</em>) between versions <em>A<sub>i</sub></em> and <em>A<sub>j</sub></em>.<br />
+Formally: <em><span class='abbreviation' title='Version materialization'>VM</span>(Q1, A<sub>i</sub>) ⨝ <span class='abbreviation' title='Version materialization'>VM</span>(Q2, A<sub>j</sub>)</em>.<br />
+Example: <em>What books were present in the library yesterday and today?</em></li>
+      <li><strong>Change materialization (<span class='abbreviation' title='Change materialization'>CM</span>)</strong> returns a list of versions in which a given query <em>Q</em> produces
+consecutively different results.<br />
+Formally: <em>{(i, j) | i &lt; j, <span class='abbreviation' title='Delta materialization'>DM</span>(Q, A(i), A(j)) = (Ω<sup>+</sup>, Ω<sup>−</sup>), Ω<sup>+</sup> ∪ Ω<sup>−</sup> ≠ ∅, ∄ k ∈ ℕ : i &lt; k &lt; j}</em>.<br />
+Example: <em>At what times was book X returned or taken from the library?</em></li>
+    </ol>
+
+    <h3 id="semantic-diff">Semantic Diff</h3>
+
+    <p>Völkel et al. introduce the concept of a <em>semantic diff</em> <span class="references">[<a href="#ref-2">2</a>]</span>
+that takes the semantics of an ontology language into account when calculating the diff,
+which is not the case for a regular <em>structural diff</em>,
+which calculates which triples have been added and which ones have been removed.
+As an example, consider the dataset with two versions from <a href="#semdiff-dataset-example">Listing 1</a>.
+The typical, structural diff just takes the difference between these two versions at triple level,
+without taking into account the meaning of the triples.
+The structural diff of this example can be found in <a href="#semdiff-dataset-example-structural">Listing 2</a>.
+A semantic diff on the other hand, takes into account the meaning of the data.
+For this example, we know that cat is a subclass of animal.
+Therefore, the removal of Bob being an animal does not actually take place, because it can still be inferred in version 1,
+as shown in <a href="#semdiff-dataset-example-semantic">Listing 3</a>.</p>
+
+    <figure id="semdiff-dataset-example" class="listing">
+<pre><code>Version 0:
+</code><code>    ex:Bob a ex:Animal.
+</code><code>    ex:Bob foaf:name &quot;Bob&quot;.
+</code><code>
+</code><code>Version 1:
+</code><code>    ex:Bob a ex:Cat.
+</code><code>    ex:Bob foaf:name &quot;Bob&quot;.
+</code><code>
+</code><code>Language:
+</code><code>    ex:Cat rdf:subClassOf ex:Animal.
+</code></pre>
+<figcaption>
+        <p><span class="label">Listing 1:</span> A simple example dataset with two versions about Bob the cat,
+with a separate ontology language.</p>
+      </figcaption>
+</figure>
+
+    <figure id="semdiff-dataset-example-structural" class="listing">
+<pre><code>Removed:
+</code><code>    ex:Bob a ex:Animal.
+</code><code>
+</code><code>Added:
+</code><code>    ex:Bob a ex:Cat.
+</code></pre>
+<figcaption>
+        <p><span class="label">Listing 2:</span> The structural diff between the two versions in <a href="#semdiff-dataset-example">Listing 1</a>.</p>
+      </figcaption>
+</figure>
+
+    <figure id="semdiff-dataset-example-semantic" class="listing">
+<pre><code>Removed:
+</code><code>Added:
+</code><code>    ex:Bob a ex:Cat.
+</code></pre>
+<figcaption>
+        <p><span class="label">Listing 3:</span> The semantic diff between the two versions in <a href="#semdiff-dataset-example">Listing 1</a>.</p>
+      </figcaption>
+</figure>
+
+    <p>The <em>semantic closure</em> <em>s<sub>l</sub>(A)</em> of a set of <span class='abbreviation' title='Resource Description Framework'>RDF</span> triples <var>A</var>
+is the set of all statements that can be concluded from the statements in <var>A</var> under the semantics of the <span class='abbreviation' title='Resource Description Framework'>RDF</span>-based ontology language <var>l</var>.
+A <em>semantic diff</em> <em>d<sub>l</sub>(A,B)</em> of two sets of <span class='abbreviation' title='Resource Description Framework'>RDF</span> triples (<var>A</var> and <var>B</var>) is formally defined by Völkel et al. as <em>d<sub>l</sub>(A,B) = (+<sub>l</sub>(A,B),−<sub>l</sub>(A,B))</em>, with <em>+<sub>l</sub>(A, B) = s<sub>l</sub>(B) \ (s<sub>l</sub>(A) ∩ s<sub>l</sub>(B))</em> and <em>−<sub>l</sub>(A, B) = s<sub>l</sub>(A) \ (s<sub>l</sub>(A) ∩ s<sub>l</sub>(B))</em>.</p>
+
+  </section>
+
+  <section id="querying">
+    <h2>Semantic Versioned Query Atoms</h2>
+
+    <p>As discussed in <a href="#fundamentals">Section 3</a>, there exist five foundational query atoms for querying <span class='abbreviation' title='Resource Description Framework'>RDF</span> archives.
+In this section, we introduce semantic extensions of these query atoms,
+similar to the structural diff to semantic diff extension introduced by Völkel et al.
+More concretely, we will extend these five query atoms with parameters for <em>language versioning</em>,
+instead of only <em>dataset versioning</em>.</p>
+
+    <h3 id="versioned-semantic-closure">Versioned Semantic Closure</h3>
+
+    <p>To remain in line with the definitions on <span class='abbreviation' title='Resource Description Framework'>RDF</span> archiving as listed in <a href="#fundamentals">Section 3</a>,
+we extend the semantic closure definition by Völkel et al. as follows:
+<em>The versioned semantic closure s(A<sub>i</sub>, L<sub>j</sub>) of a version V<sub>i</sub> is the set of all triples that can be inferred from the triples in A<sub>i</sub> under the semantics of the <span class='abbreviation' title='Resource Description Framework'>RDF</span>-based ontology language L<sub>j</sub>.</em>
+In this definition, we consider the <span class='abbreviation' title='Resource Description Framework'>RDF</span>-based ontology language <var>l</var> to represent an <span class='abbreviation' title='Resource Description Framework'>RDF</span> archive as well,
+for which we use the notation <em>L<sub>j</sub></em> to refer to the <span class='abbreviation' title='Resource Description Framework'>RDF</span> version <var>j</var> of the archive <var>L</var>.</p>
+
+    <h3 id="query-atoms">Query Atoms</h3>
+
+    <p>In this section, we describe the semantic extensions of the five foundational query atoms for querying <span class='abbreviation' title='Resource Description Framework'>RDF</span> archives.
+The atoms that apply to multiple versions (<span class='abbreviation' title='Version query'>VQ</span> and <span class='abbreviation' title='Change materialization'>CM</span>) are subcategorized
+to handle the different combinations of single and cross-version dataset and ontology versions.</p>
+
+    <p>Each extension is described formally, and an example of its usage is given.
+All examples apply to the use case of a cat shelter
+that makes use of an evolving ontology of cat species.</p>
+
+    <p>The semantic extension of the five versioned query atoms are defined as follows:</p>
+
+    <ol>
+      <li><strong>Semantic version materialization (S-<span class='abbreviation' title='Version materialization'>VM</span>)</strong> retrieves data using a query <em>Q</em>
+ targeted at a single version <em>A<sub>i</sub></em> in a single ontology version <em>L<sub>j</sub></em>.<br />
+ Formally: <em>S-<span class='abbreviation' title='Version materialization'>VM</span>(Q, A<sub>i</sub>, L<sub>j</sub>) = [[Q]]<sub>s(A<sub>i</sub>, L<sub>j</sub>)</sub></em><br />
+ Example: <em>Which African wild cats were present in the shelter yesterday according to last year’s classification?</em></li>
+      <li><strong>Semantic delta materialization (S-<span class='abbreviation' title='Delta materialization'>DM</span>)</strong> retrieves query <em>Q</em>’s result change sets between
+ two versions <em>A<sub>i</sub></em> and <em>A<sub>j</sub></em> respectively using ontology version <em>L<sub>k</sub></em> and <em>L<sub>l</sub></em>.<br />
+ Formally: <em>S-<span class='abbreviation' title='Delta materialization'>DM</span>(Q, A<sub>i</sub>, A<sub>j</sub>, L<sub>k</sub>, L<sub>l</sub>) = (Ω<sup>+</sup>, Ω<sup>−</sup>).</em>
+ With <em>Ω<sup>+</sup> = [[Q]]<sub>s(A<sub>i</sub>, L<sub>k</sub>)</sub> \ [[Q]]<sub>s(A<sub>j</sub>, L<sub>l</sub>)</sub></em>
+ and <em>Ω<sup>−</sup> = [[Q]]<sub>s(A<sub>j</sub>, L<sub>jl</sub>)</sub> \ [[Q]]<sub>s(A<sub>i</sub>, L<sub>k</sub>)</sub></em><br />
+ Example: <em>Which cats that were present in the shelter since ten years ago became a different species over the last year?</em></li>
+      <li><strong>Semantic version query (S-<span class='abbreviation' title='Version query'>VQ</span>)</strong>
+        <ol>
+          <li><strong>Semantic intermodal and interontological version query (MOS-<span class='abbreviation' title='Version query'>VQ</span>)</strong> annotates query <em>Q</em>’s results with the versions
+ of <span class='abbreviation' title='Resource Description Framework'>RDF</span> archive <em>A</em> and ontology <em>L</em> in which they are valid.<br />
+ Formally: <em>S-<span class='abbreviation' title='Version query'>VQ</span>(Q, A, L) = {(Ω, V) | V = {(A<sub>i</sub>, L<sub>j</sub>) | Ω=[[Q]]<sub>s(A<sub>i</sub>, L<sub>j</sub>)</sub>, i, j ∈ N} ∧ Ω ≠ ∅}</em><br />
+ Example: <em>At what points in time were there African wild cats in the schelter, and according to the classification of what time?</em></li>
+          <li><strong>Semantic intermodal version query (MS-<span class='abbreviation' title='Version query'>VQ</span>)</strong> annotates query <em>Q</em>’s results with the versions
+ of <span class='abbreviation' title='Resource Description Framework'>RDF</span> archive <em>A</em> in which they are valid according to ontology version <em>L<sub>j</sub></em>.<br />
+ Formally: <em>S-<span class='abbreviation' title='Version query'>VQ</span>(Q, A, L<sub>j</sub>) = {(Ω, V) | V = {A<sub>i</sub> | Ω=[[Q]]<sub>s(A<sub>i</sub>, L<sub>j</sub>)</sub>, j ∈ N} ∧ Ω ≠ ∅}</em><br />
+ Example: <em>At what points in time were there African wild cats in the schelter?</em></li>
+          <li><strong>Semantic interontological version query (OS-<span class='abbreviation' title='Version query'>VQ</span>)</strong> annotates query <em>Q</em>’s results with the versions
+ of ontology <em>L</em> in which they are valid within dataset version <em>A<sub>i</sub></em>.<br />
+ Formally: <em>S-<span class='abbreviation' title='Version query'>VQ</span>(Q, A<sub>i</sub>, L) = {(Ω, V) | V = {L<sub>j</sub> | Ω=[[Q]]<sub>s(A<sub>i</sub>, L<sub>j</sub>)</sub>, i ∈ N} ∧ Ω ≠ ∅}</em><br />
+ Example: <em>At what points in time were the cats that are currently in the shelter ever African wild cats?</em></li>
+        </ol>
+      </li>
+      <li><strong>Semantic cross-version join (S-<span class='abbreviation' title='Cross-version join'>CV</span>)</strong> joins the results of two queries (<em>Q1</em> and <em>Q2</em>) between versions <em>A<sub>i</sub></em> and <em>A<sub>j</sub></em> respectively using ontology version <em>L<sub>k</sub></em> and <em>L<sub>l</sub></em>.<br />
+ Formally: <em>S-<span class='abbreviation' title='Cross-version join'>CV</span>(Q<sub>1</sub>, Q<sub>2</sub>, A<sub>i</sub>, A<sub>j</sub>, L<sub>k</sub>, L<sub>l</sub>) = S-<span class='abbreviation' title='Version materialization'>VM</span>(Q<sub>1</sub>, A<sub>i</sub>, L<sub>k</sub>) ⨝ S-<span class='abbreviation' title='Version materialization'>VM</span>(Q<sub>2</sub>, A<sub>j</sub>, L<sub>l</sub>)</em><br />
+ Example: <em>Which African wild cats were in the shelter yesterday (according to last year’s classification) and the day before (according to the current classification)?</em></li>
+      <li><strong>Semantic change materialization (S-<span class='abbreviation' title='Change materialization'>CM</span>)</strong>
+        <ol>
+          <li><strong>Semantic intermodal and interontological change materialization (MOS-<span class='abbreviation' title='Change materialization'>CM</span>)</strong> returns a list of consecutive archive and ontology versions in which a given query <em>Q</em> produces different results.<br />
+ Formally: <em>S-<span class='abbreviation' title='Cross-version join'>CV</span>(Q, A, L) = {(i, j, k, l) | i &lt; j, k &lt; l, S-<span class='abbreviation' title='Delta materialization'>DM</span>(Q, A<sub>i</sub>, A<sub>j</sub>, L<sub>k</sub>, L<sub>l</sub>) = (Ω<sup>+</sup>, Ω<sup>−</sup>), Ω<sup>+</sup> ∪ Ω<sup>−</sup> ≠ ∅, ∄ a ∈ ℕ : i &lt; a &lt; j, ∄ b ∈ ℕ : k &lt; b &lt; l}</em><br />
+ Example: <em>At what times and in which classification did Bob become an African wild cat?</em></li>
+          <li><strong>Semantic intermodal change materialization (MS-<span class='abbreviation' title='Change materialization'>CM</span>)</strong> returns a list of consecutive archive versions in which a given query <em>Q</em> produces different results between two ontology versions.<br />
+ Formally: <em>S-<span class='abbreviation' title='Cross-version join'>CV</span>(Q, A, L<sub>k</sub>, L<sub>l</sub>) = {(i, j) | i &lt; j, S-<span class='abbreviation' title='Delta materialization'>DM</span>(Q, A<sub>i</sub>, A<sub>j</sub>, L<sub>k</sub>, L<sub>l</sub>) = (Ω<sup>+</sup>, Ω<sup>−</sup>), Ω<sup>+</sup> ∪ Ω<sup>−</sup> ≠ ∅, ∄ a ∈ ℕ : i &lt; a &lt; j, ∄ b ∈ ℕ : k &lt; b &lt; l}</em><br />
+ Example: <em>At what times did Bob become an African wild cat between last year’s and today’s classification?</em></li>
+          <li><strong>Semantic interontological change materialization (MS-<span class='abbreviation' title='Change materialization'>CM</span>)</strong> returns a list of consecutive language versions in which a given query <em>Q</em> produces different results between two dataset versions.<br />
+ Formally: <em>S-<span class='abbreviation' title='Cross-version join'>CV</span>(Q, A<sub>i</sub>, A<sub>j</sub>, L) = {(k, l) | k &lt; l, S-<span class='abbreviation' title='Delta materialization'>DM</span>(Q, A<sub>i</sub>, A<sub>j</sub>, L<sub>k</sub>, L<sub>l</sub>) = (Ω<sup>+</sup>, Ω<sup>−</sup>), Ω<sup>+</sup> ∪ Ω<sup>−</sup> ≠ ∅, ∄ a ∈ ℕ : i &lt; a &lt; j, ∄ b ∈ ℕ : k &lt; b &lt; l}</em><br />
+ Example: <em>In which classification versions did Bob become an African wild cat between yesterday and today?</em></li>
+        </ol>
+      </li>
+    </ol>
+
+    <h3 id="query-atom-derivations">Query Atom Derivations</h3>
+
+    <p>Based on the semantic query atom extensions that were introduced in last section,
+we can derive subtypes for the semantic delta materialisation and semantic cross-version join.
+These subtypes can be used as simplified form of the foundational semantic query atoms.</p>
+
+    <h4 id="semantic-delta-materialisation">Semantic delta materialisation</h4>
+
+    <p>The definition of semantic delta materialization (S-<span class='abbreviation' title='Delta materialization'>DM</span>) is similar to,
+but more generic than the semantic diff definition by Völkel et al <span class="references">[<a href="#ref-2">2</a>]</span>.
+While the semantic diff only allows versioning on the dataset, our S-<span class='abbreviation' title='Delta materialization'>DM</span> definition also enables versioning of the ontology.
+Similarly, Huang et al. <span class="references">[<a href="#ref-3">3</a>]</span> introduce a diff that enables versioning of the ontology, but not on the dataset.
+As such, our semantic delta materialization definition can be seen as a combination of both.
+Furthermore, we can express these diff methods in terms of S-<span class='abbreviation' title='Delta materialization'>DM</span> as follows:</p>
+
+    <ul>
+      <li><strong>Intermodal semantic delta materialisation (MS-<span class='abbreviation' title='Delta materialization'>DM</span>)</strong> is semantic delta materialization of different versions under the same ontology. This corresponds to the diff method of Völkel et al. <span class="references">[<a href="#ref-2">2</a>]</span>.<br />
+  Formally: <em>MS-<span class='abbreviation' title='Delta materialization'>DM</span>(Q, A<sub>i</sub>, A<sub>j</sub>, L<sub>k</sub>) = S-<span class='abbreviation' title='Delta materialization'>DM</span>(Q, A<sub>i</sub>, A<sub>j</sub>, L<sub>k</sub>, L<sub>k</sub>)</em>.</li>
+      <li><strong>Interontological semantic delta materialisation (OS-<span class='abbreviation' title='Delta materialization'>DM</span>)</strong> is semantic delta materialization of the same version under different ontologies. This corresponds to the diff method of Huang et al. <span class="references">[<a href="#ref-3">3</a>]</span>.<br />
+  Formally: <em>OS-<span class='abbreviation' title='Delta materialization'>DM</span>(Q, A<sub>i</sub>, L<sub>k</sub>, L<sub>l</sub>) = S-<span class='abbreviation' title='Delta materialization'>DM</span>(Q, A<sub>i</sub>, A<sub>i</sub>, L<sub>k</sub>, L<sub>l</sub>)</em>.</li>
+    </ul>
+
+    <h4 id="semantic-cross-version-join">Semantic cross-version join</h4>
+
+    <p>Similarly, we can define the following derivations of the semantic cross-version join:</p>
+
+    <ul>
+      <li><strong>Intermodal semantic cross-version join (MS-<span class='abbreviation' title='Cross-version join'>CV</span>)</strong> is semantic cross-version join for different versions under the same ontology.
+  Formally, <em>MS-<span class='abbreviation' title='Cross-version join'>CV</span>(Q<sub>1</sub>, Q<sub>2</sub>, A<sub>i</sub>, A<sub>j</sub>, L<sub>k</sub>) = S-<span class='abbreviation' title='Cross-version join'>CV</span>(Q<sub>1</sub>, Q<sub>2</sub>, A<sub>i</sub>, A<sub>j</sub>, L<sub>k</sub>, L<sub>k</sub>)</em>.</li>
+      <li><strong>Interontological semantic cross-version join (OS-<span class='abbreviation' title='Cross-version join'>CV</span>)</strong> is semantic cross-version join of the same version under different ontologies.
+  Formally, <em>OS-<span class='abbreviation' title='Cross-version join'>CV</span>(Q<sub>1</sub>, Q<sub>2</sub>, A<sub>i</sub>, L<sub>k</sub>, L<sub>l</sub>) = S-<span class='abbreviation' title='Cross-version join'>CV</span>(Q<sub>1</sub>, Q<sub>2</sub>, A<sub>i</sub>, A<sub>i</sub>, L<sub>k</sub>, L<sub>l</sub>)</em>.</li>
+    </ul>
+
+  </section>
+
+  <section id="demo">
+    <h2>Proof of Concept</h2>
+
+    <p>In order to provide a baseline of the proposed semantic versioned querying atoms,
+we provide a prototypical implementation of a subset of the semantic versioned query atoms that were introduced in <a href="#querying">Section 4</a>.
+In this section, we describe this system, followed by an evaluation description, and a presentation of the results.</p>
+
+    <h3 id="system">System</h3>
+
+    <p>Our prototype is implemented as an additional semantic layer on top of <a property="schema:citation http://purl.org/spar/cito/cites" href="https://rdfostrich.github.io/article-demo/"><span class='abbreviation' title='Offset-Enabled Triple Store for Changesets'>OSTRICH</span></a> <span class="references">[<a href="#ref-9">9</a>]</span>,
+which is a versioned <span class='abbreviation' title='Resource Description Framework'>RDF</span> triple store that offers syntactical versioning.
+As <span class='abbreviation' title='Offset-Enabled Triple Store for Changesets'>OSTRICH</span> only supports <span class='abbreviation' title='Version materialization'>VM</span>, <span class='abbreviation' title='Delta materialization'>DM</span> and <span class='abbreviation' title='Version query'>VQ</span> triple pattern queries at the time of writing,
+we limit our implementation to the semantic extension of these atoms,
+namely, S-<span class='abbreviation' title='Version materialization'>VM</span>, S-<span class='abbreviation' title='Delta materialization'>DM</span> and S-<span class='abbreviation' title='Version query'>VQ</span> triple pattern queries.</p>
+
+    <p>As can be seen in <a href="#architecture">Fig. 1</a>, our semantic layer internally uses two <span class='abbreviation' title='Offset-Enabled Triple Store for Changesets'>OSTRICH</span> stores,
+one for the versioned dataset, and one for the versioned language.</p>
+
+    <p>As a backwards rule-based reasoner,
+this semantic layer infers additional triples for each S-<span class='abbreviation' title='Version materialization'>VM</span>, S-<span class='abbreviation' title='Delta materialization'>DM</span> or S-<span class='abbreviation' title='Version query'>VQ</span> query.
+Rules can be provided in the <a property="schema:citation http://purl.org/spar/cito/cites" href="http://www.w3.org/DesignIssues/Notation3.html">Notation 3 syntax</a> <span class="references">[<a href="#ref-24">24</a>]</span> at query time.
+It does this through the following steps:</p>
+
+    <ol>
+      <li>Select applicable rules for the given triple pattern.</li>
+      <li>Query the dataset for the given triple pattern and version options.</li>
+      <li>Loop until set of inferred triples stops growing.
+        <ol>
+          <li>Determine rules that can infer new triples</li>
+          <li>Perform backwards reasoning with these rules by querying the dataset and language for the given triple pattern and version options.</li>
+          <li>Add newly inferred triples to set of triples</li>
+        </ol>
+      </li>
+    </ol>
+
+    <figure id="architecture">
+<img src="img/architecture.svg" alt="[architecture]" class="fig-architecture" />
+<figcaption>
+        <p><span class="label">Fig. 1:</span> Architecture overview of our semantic versioned querying layer on top of <span class='abbreviation' title='Offset-Enabled Triple Store for Changesets'>OSTRICH</span>.
+The required parameters for the three triple pattern-based queries are indicated,
+with <em>v<sup>d</sup></em> indicating the version of the dataset,
+and <em>v<sup>l</sup></em> indicating the version of the language.</p>
+      </figcaption>
+</figure>
+
+    <p>The source code of this prototype can be found on <a href="https://github.com/rdfostrich/semantic-ostrich" class="mandatory" data-link-text="https:/​/​github.com/​rdfostrich/​semantic-​ostrich">GitHub</a>
+and is available under the MIT license.</p>
+
+    <h3 id="evaluation">Evaluation</h3>
+
+    <p>In order to evaluate the performance of our semantic layer,
+we executed several queries with inferencing of <code>rdfs:subClassOf</code> relationships
+within the BEAR-B-daily dataset from the <a property="schema:citation http://purl.org/spar/cito/cites" href="https://aic.ai.wu.ac.at/qadlod/docs/semantics16.pdf">BEAR benchmark</a> <span class="references">[<a href="#ref-6">6</a>]</span>.
+The BEAR benchmark evaluates using triple pattern queries,
+which form the basis of more expressive query evaluation.</p>
+
+    <p>To achieve this, we created a derived version of this BEAR-B-daily dataset
+where we removed all <code>rdf:type</code> relationships from instances to classes that can be inferred
+through <code>rdfs:subClassOf</code> relationships for each instance.
+The (44) triples identifying the subclass relationships were stored in a single version inside the language store.
+As the BEAR-B-daily dataset does not provide any versioning of the language,
+our evaluation excludes versioning of the language.</p>
+
+    <p>As <span class='abbreviation' title='Offset-Enabled Triple Store for Changesets'>OSTRICH</span> only supports <span class='abbreviation' title='Version materialization'>VM</span>, <span class='abbreviation' title='Delta materialization'>DM</span> and <span class='abbreviation' title='Version query'>VQ</span> triple pattern queries,
+we only evaluate their respective semantic extension,
+always using the single language version.
+For S-<span class='abbreviation' title='Version materialization'>VM</span>, we query the last version,
+for S-<span class='abbreviation' title='Delta materialization'>DM</span>, we query between the first and last version,
+and for S-<span class='abbreviation' title='Version query'>VQ</span>, we do an intermodal query using the single language version.</p>
+
+    <p>The source code of this evaluation can be found on <a href="https://github.com/rdfostrich/semantic-ostrich/blob/master/evaluate.js" class="mandatory" data-link-text="https:/​/​github.com/​rdfostrich/​semantic-​ostrich/​blob/​master/​evaluate.js">GitHub</a>.</p>
+
+    <h3 id="results">Results</h3>
+
+    <p>The original BEAR-B-daily dataset contains 48,914 unique triples in 88 dataset versions,
+while the derived dataset contains 31,761 triples, which is a reduction of 35,07%.</p>
+
+    <p><a href="#results-s-vm">Table 1</a>, <a href="#results-s-dm">Table 2</a> and <a href="#results-s-vq">Table 3</a> respectively contain the evaluation results
+for the S-<span class='abbreviation' title='Version materialization'>VM</span>, S-<span class='abbreviation' title='Delta materialization'>DM</span> and S-<span class='abbreviation' title='Version query'>VQ</span> queries.
+The table columns indicate the following:</p>
+
+    <ul>
+      <li><em>Query</em>: The subject of the triple pattern that is queried.</li>
+      <li><em>Original</em>: Execution time of the query against the original BEAR-B-daily dataset.</li>
+      <li><em>Reduced</em>: Execution of the query against the derived BEAR-B-daily dataset, without inference from our semantic layer.</li>
+      <li><em>Inferred</em>: Execution of the query against the derived BEAR-B-daily dataset, with inference using our semantic layer.</li>
+      <li><em>Inference queries</em>: The number of queries against the <span class='abbreviation' title='Offset-Enabled Triple Store for Changesets'>OSTRICH</span> store that were performed by the semantic layer.</li>
+      <li><em>Inferred normalized</em>: <em>Inferred</em> execution time divided by the number of <em>inference queries</em>.</li>
+    </ul>
+
+    <p>The results show that the backwards reasoner within our prototype
+requires almost eight queries to the <span class='abbreviation' title='Offset-Enabled Triple Store for Changesets'>OSTRICH</span> stores on average for this dataset.
+The queries to the <span class='abbreviation' title='Offset-Enabled Triple Store for Changesets'>OSTRICH</span> stores form the main bottleneck.</p>
+
+    <figure id="results-s-vm" class="table">
+
+      <table>
+        <thead>
+          <tr>
+            <th><strong>Query</strong></th>
+            <th><strong>Original</strong></th>
+            <th><strong>Reduced</strong></th>
+            <th><strong>Inferred</strong></th>
+            <th><strong>Inference queries</strong></th>
+            <th><strong>Inferred normalized</strong></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>dbr:Palazzo_Parisio_(Valletta)</td>
+            <td>0.56</td>
+            <td>0.25</td>
+            <td>2.51</td>
+            <td>10</td>
+            <td>0.25</td>
+          </tr>
+          <tr>
+            <td>dbr:Singaporean_general_election,_2015</td>
+            <td>0.47</td>
+            <td>0.21</td>
+            <td>2.26</td>
+            <td>10</td>
+            <td>0.23</td>
+          </tr>
+          <tr>
+            <td>dbr:What_Do_You_Mean?</td>
+            <td>0.63</td>
+            <td>0.22</td>
+            <td>1.76</td>
+            <td>9</td>
+            <td>0.20</td>
+          </tr>
+          <tr>
+            <td>dbr:Dancing_with_the_Stars_…</td>
+            <td>0.58</td>
+            <td>0.23</td>
+            <td>1.55</td>
+            <td>6</td>
+            <td>0.26</td>
+          </tr>
+          <tr>
+            <td>dbr:Doctor_Who_(series_9)</td>
+            <td>0.33</td>
+            <td>0.15</td>
+            <td>0.97</td>
+            <td>6</td>
+            <td>0.16</td>
+          </tr>
+          <tr>
+            <td>dbr:My_Little_Pony…</td>
+            <td>0.15</td>
+            <td>0.09</td>
+            <td>0.94</td>
+            <td>7</td>
+            <td>0.13</td>
+          </tr>
+          <tr>
+            <td>dbr:2015</td>
+            <td>0.26</td>
+            <td>0.12</td>
+            <td>0.89</td>
+            <td>6</td>
+            <td>0.15</td>
+          </tr>
+          <tr>
+            <td><em>Average</em></td>
+            <td><em>0.42</em></td>
+            <td><em>0.18</em></td>
+            <td><em>1.55</em></td>
+            <td><em>7.71</em></td>
+            <td><em>0.20</em></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <figcaption>
+        <p><span class="label">Table 1:</span> Execution times in milliseconds for S-<span class='abbreviation' title='Version materialization'>VM</span> queries against the last dataset version,
+using the first language version for an 7 S?? triple patterns.</p>
+      </figcaption>
+    </figure>
+
+    <figure id="results-s-dm" class="table">
+
+      <table>
+        <thead>
+          <tr>
+            <th><strong>Query</strong></th>
+            <th><strong>Original</strong></th>
+            <th><strong>Reduced</strong></th>
+            <th><strong>Inferred</strong></th>
+            <th><strong>Inference queries</strong></th>
+            <th><strong>Inferred normalized</strong></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>dbr:Palazzo_Parisio_(Valletta)</td>
+            <td>0.45</td>
+            <td>0.21</td>
+            <td>3.32</td>
+            <td>10</td>
+            <td>0.33</td>
+          </tr>
+          <tr>
+            <td>dbr:Singaporean_general_election,_2015</td>
+            <td>0.39</td>
+            <td>0.18</td>
+            <td>2.27</td>
+            <td>10</td>
+            <td>0.23</td>
+          </tr>
+          <tr>
+            <td>dbr:What_Do_You_Mean?</td>
+            <td>0.34</td>
+            <td>0.13</td>
+            <td>2.17</td>
+            <td>9</td>
+            <td>0.24</td>
+          </tr>
+          <tr>
+            <td>dbr:Dancing_with_the_Stars_…</td>
+            <td>0.40</td>
+            <td>0.20</td>
+            <td>1.06</td>
+            <td>6</td>
+            <td>0.18</td>
+          </tr>
+          <tr>
+            <td>dbr:Doctor_Who_(series_9)</td>
+            <td>0.18</td>
+            <td>0.12</td>
+            <td>1.14</td>
+            <td>6</td>
+            <td>0.19</td>
+          </tr>
+          <tr>
+            <td>dbr:My_Little_Pony…</td>
+            <td>0.12</td>
+            <td>0.11</td>
+            <td>2.47</td>
+            <td>7</td>
+            <td>0.35</td>
+          </tr>
+          <tr>
+            <td>dbr:2015</td>
+            <td>0.36</td>
+            <td>0.18</td>
+            <td>1.84</td>
+            <td>6</td>
+            <td>0.31</td>
+          </tr>
+          <tr>
+            <td><em>Average</em></td>
+            <td><em>0.32</em></td>
+            <td><em>0.16</em></td>
+            <td><em>2.04</em></td>
+            <td><em>7.71</em></td>
+            <td><em>0.26</em></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <figcaption>
+        <p><span class="label">Table 2:</span> Execution times in milliseconds for S-<span class='abbreviation' title='Delta materialization'>DM</span> queries between the first and last dataset versions,
+both using the first language version for 7 S?? triple patterns.</p>
+      </figcaption>
+    </figure>
+
+    <figure id="results-s-vq" class="table">
+
+      <table>
+        <thead>
+          <tr>
+            <th><strong>Query</strong></th>
+            <th><strong>Original</strong></th>
+            <th><strong>Reduced</strong></th>
+            <th><strong>Inferred</strong></th>
+            <th><strong>Inference queries</strong></th>
+            <th><strong>Inferred normalized</strong></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>dbr:Palazzo_Parisio_(Valletta)</td>
+            <td>0.65</td>
+            <td>0.29</td>
+            <td>2.48</td>
+            <td>10</td>
+            <td>0.25</td>
+          </tr>
+          <tr>
+            <td>dbr:Singaporean_general_election,_2015</td>
+            <td>0.83</td>
+            <td>0.28</td>
+            <td>2.16</td>
+            <td>10</td>
+            <td>0.22</td>
+          </tr>
+          <tr>
+            <td>dbr:What_Do_You_Mean?</td>
+            <td>0.58</td>
+            <td>0.17</td>
+            <td>1.24</td>
+            <td>9</td>
+            <td>0.14</td>
+          </tr>
+          <tr>
+            <td>dbr:Dancing_with_the_Stars_…</td>
+            <td>0.43</td>
+            <td>0.27</td>
+            <td>0.96</td>
+            <td>6</td>
+            <td>0.16</td>
+          </tr>
+          <tr>
+            <td>dbr:Doctor_Who_(series_9)</td>
+            <td>0.26</td>
+            <td>0.12</td>
+            <td>0.75</td>
+            <td>6</td>
+            <td>0.13</td>
+          </tr>
+          <tr>
+            <td>dbr:My_Little_Pony…</td>
+            <td>0.13</td>
+            <td>0.09</td>
+            <td>1.06</td>
+            <td>7</td>
+            <td>0.15</td>
+          </tr>
+          <tr>
+            <td>dbr:2015</td>
+            <td>0.24</td>
+            <td>0.10</td>
+            <td>1.17</td>
+            <td>6</td>
+            <td>0.20</td>
+          </tr>
+          <tr>
+            <td><em>Average</em></td>
+            <td><em>0.45</em></td>
+            <td><em>0.19</em></td>
+            <td><em>1.40</em></td>
+            <td><em>7.71</em></td>
+            <td><em>0.18</em></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <figcaption>
+        <p><span class="label">Table 3:</span> Execution times in milliseconds for S-<span class='abbreviation' title='Version query'>VQ</span> queries for 7 S?? triple patterns.</p>
+      </figcaption>
+    </figure>
+
+  </section>
+
+  <section id="conclusions">
+    <h2>Conclusions</h2>
+
+    <p>In this work, we introduced fundamental concepts on how to evaluate <em>semantic</em> queries over versioned Linked Datasets.
+For this, we extended existing <em>structural</em> versioned query atoms by coupling them with <em>language versioning</em> and <em>reasoning</em>.</p>
+
+    <p>Our wrapper-based prototypical implementation of these semantic extensions shows
+that semantic querying, i.e., inference at runtime,
+is able to significantly reduce storage requirements
+at the cost of an increase in query time.
+Together with that, it also brings the additional benefit of
+being able to select the language version(s) for each query,
+which would otherwise require dataset duplication when no semantic querying layer is present.</p>
+
+    <p>As this is merely a wrapper-based prototype,
+inference is sub-optimal,
+and a lot of room for improvement exist.
+In future work, we foresee improvements regarding the runtime inference based on techniques from the world of <span class='abbreviation' title='Ontology-Based Data Access'>OBDA</span>.
+Furthermore, some <span class='abbreviation' title='Resource Description Framework'>RDF</span> stream reasoning techniques could potentially be generalized to work for versioned querying.
+Native implementations of semantic versioning engines could also reduce the overhead of this wrapper-based approach.</p>
+
+    <p>The newly introduced foundational semantic versioned query atoms
+forms a basis for future research and development of semantic versioned querying within <span class='abbreviation' title='Resource Description Framework'>RDF</span> stores,
+and will consequently enable enhanced analysis over multiple Linked Dataset versions.</p>
+
+  </section>
+
+</main>
+
+<footer><section id="references">
+<h2>References</h2>
+<dl class="references">
+  <dt id="ref-1">[1]</dt>
+  <dd resource="#streamreasoning" typeof="schema:Article">Della Valle, E., Ceri, S., Barbieri, D.F., Braga, D., Campi, A.: A first step towards stream reasoning. In: Future Internet Symposium. pp. 72–81. Springer (2008).</dd>
+  <dt id="ref-2">[2]</dt>
+  <dd resource="#semversion" typeof="schema:Article">Völkel, M., Groza, T.: SemVersion: An <span class='abbreviation' title='Resource Description Framework'>RDF</span>-based ontology versioning system. In: Proceedings of the IADIS international conference WWW/Internet. p. 44 (2006).</dd>
+  <dt id="ref-3">[3]</dt>
+  <dd resource="#more" typeof="schema:Article">Huang, Z., Stuckenschmidt, H.: Reasoning with multi-version ontologies: A temporal logic approach. In: International Semantic Web Conference. pp. 398–412. Springer (2005).</dd>
+  <dt id="ref-4">[4]</dt>
+  <dd resource="#heymans2008ontology" typeof="schema:Chapter">Heymans, S., Ma, L., Anicic, D., Ma, Z., Steinmetz, N., Pan, Y., Mei, J., Fokoue, A., Kalyanpur, A., Kershenbaum, A., others: Ontology reasoning with large data repositories. In: Ontology Management. pp. 89–128. Springer (2008).</dd>
+  <dt id="ref-5">[5]</dt>
+  <dd resource="#poggi2008linking" typeof="schema:Chapter">Poggi, A., Lembo, D., Calvanese, D., De Giacomo, G., Lenzerini, M., Rosati, R.: Linking data to ontologies. In: Journal on data semantics X. pp. 133–173. Springer (2008).</dd>
+  <dt id="ref-6">[6]</dt>
+  <dd resource="https://aic.ai.wu.ac.at/qadlod/docs/semantics16.pdf" typeof="schema:Article">Fernández, J.D., Umbrich, J., Polleres, A., Knuth, M.: Evaluating Query and Storage Strategies for <span class='abbreviation' title='Resource Description Framework'>RDF</span> Archives. In: Proceedings of the 12th International Conference on Semantic Systems. ACM (2016).</dd>
+  <dt id="ref-7">[7]</dt>
+  <dd resource="#conceptdrift" typeof="schema:Article">Wang, S., Schlobach, S., Klein, M.: Concept drift and how to identify it. Web Semantics: Science, Services and Agents on the World Wide Web. 9, 247–265 (2011).</dd>
+  <dt id="ref-8">[8]</dt>
+  <dd resource="#biomedical" typeof="schema:Article">Afgan, E., Baker, D., Van den Beek, M., Blankenberg, D., Bouvier, D., Čech, M., Chilton, J., Clements, D., Coraor, N., Eberhard, C., others: The Galaxy platform for accessible, reproducible and collaborative biomedical analyses: 2016 update. Nucleic acids research. 44, W3–W10 (2016).</dd>
+  <dt id="ref-9">[9]</dt>
+  <dd resource="https://rdfostrich.github.io/article-demo/" typeof="schema:Article">Taelman, R., Vander Sande, M., Verborgh, R.: <span class='abbreviation' title='Offset-Enabled Triple Store for Changesets'>OSTRICH</span>: Versioned Random-Access Triple Store. In: Proceedings of the 27th International Conference Companion on World Wide Web (2018).</dd>
+  <dt id="ref-10">[10]</dt>
+  <dd resource="#diachronql" typeof="schema:Article">Meimaris, M., Papastefanatos, G., Viglas, S., Stavrakas, Y., Pateritsas, C., Anagnostopoulos, I.: A Query Language for Multi-version Data Web Archives. Expert Systems. 33, 383–404 (2016).</dd>
+  <dt id="ref-11">[11]</dt>
+  <dd resource="#xrdf3x" typeof="schema:Article">Neumann, T., Weikum, G.: x-<span class='abbreviation' title='Resource Description Framework'>RDF</span>-3X: fast querying, high update rates, and consistency for <span class='abbreviation' title='Resource Description Framework'>RDF</span> databases. Proceedings of the VLDB Endowment. 3, 256–263 (2010).</dd>
+  <dt id="ref-12">[12]</dt>
+  <dd resource="#surveyontologyevolutionpostcentric" typeof="schema:Article">Zablith, F., Antoniou, G., d’Aquin, M., Flouris, G., Kondylakis, H., Motta, E., Plexousakis, D., Sabou, M.: Ontology evolution: a process-centric survey. The knowledge engineering review. 30, 45–75 (2015).</dd>
+  <dt id="ref-13">[13]</dt>
+  <dd resource="#temporalowlversioning" typeof="schema:Article">Zekri, A., Brahmia, Z., Grandi, F., Bouaziz, R.: Temporal schema versioning in \tauOWL: a systematic approach for the management of time-varying knowledge. Journal of Decision Systems. 26, 113–137 (2017).</dd>
+  <dt id="ref-14">[14]</dt>
+  <dd resource="#rspql" typeof="schema:Article">Dell’Aglio, D., Della Valle, E., Calbimonte, J.-P., Corcho, O.: <span class='abbreviation' title='RDF Stream Processing'>RSP</span>-QL semantics: a unifying query model to explain heterogeneity of <span class='abbreviation' title='Resource Description Framework'>RDF</span> stream processing systems. International Journal on Semantic Web and Information Systems (IJSWIS). 10, 17–44 (2014).</dd>
+  <dt id="ref-15">[15]</dt>
+  <dd resource="#streamreasoningsofar" typeof="schema:Article">Barbieri, D., Braga, D., Ceri, S., Della Valle, E., Grossniklaus, M.: Stream reasoning: Where we got so far. In: NeFoRS 2010: 4th International Workshop on New Forms of Reasoning for the Semantic Web: Scalable and Dynamic (2010).</dd>
+  <dt id="ref-16">[16]</dt>
+  <dd resource="http://git-scm.com" typeof="schema:CreativeWork">Torvalds, L., Hamano, J.: Git: Fast version control system. <a href="http://git-scm.com">http:/​/​git-scm.com</a> (2010).</dd>
+  <dt id="ref-17">[17]</dt>
+  <dd resource="#dbpedia" typeof="schema:Chapter">Auer, S., Bizer, C., Kobilarov, G., Lehmann, J., Cyganiak, R., Ives, Z.: Dbpedia: A nucleus for a web of open data. In: The semantic web. pp. 722–735. Springer (2007).</dd>
+  <dt id="ref-18">[18]</dt>
+  <dd resource="https://linkedsoftwaredependencies.org/articles/describing-experiments/" typeof="schema:Article">Van Herwegen, J., Taelman, R., Capadisli, S., Verborgh, R.: Describing configurations of software experiments as Linked Data. In: Proceedings of the First Workshop on Enabling Open Semantic Science (SemSci) (2017).</dd>
+  <dt id="ref-19">[19]</dt>
+  <dd resource="#mastro" typeof="schema:Article">Calvanese, D., De Giacomo, G., Lembo, D., Lenzerini, M., Poggi, A., Rodriguez-Muro, M., Rosati, R., Ruzzi, M., Savo, D.F.: The MASTRO system for ontology-based data access. Semantic Web. 2, 43–53 (2011).</dd>
+  <dt id="ref-20">[20]</dt>
+  <dd resource="#obqa" typeof="schema:Article">Ortiz, M.: Ontology Based Query Answering The Story So Far. (2013).</dd>
+  <dt id="ref-21">[21]</dt>
+  <dd resource="https://www.w3.org/TR/2013/REC-sparql11-entailment-20130321/" typeof="schema:CreativeWork">Glimm, B., Ogbuji, C.: <span class='abbreviation' title='SPARQL Procotol and RDF Query Language'>SPARQL</span> 1.1 Entailment Regimes. W3C, <a href="https://www.w3.org/TR/2013/REC-sparql11-entailment-20130321/">https:/​/​www.w3.org/TR/2013/REC-sparql11-entailment-20130321/</a> (2013).</dd>
+  <dt id="ref-22">[22]</dt>
+  <dd resource="http://www.w3.org/TR/2014/REC-rdf11-concepts-20140225/" typeof="schema:CreativeWork">Cyganiak, R., Wood, D., Lanthaler, M.: <span class='abbreviation' title='Resource Description Framework'>RDF</span> 1.1: Concepts and Abstract Syntax. W3C, <a href="http://www.w3.org/TR/2014/REC-rdf11-concepts-20140225/">http:/​/​www.w3.org/TR/2014/REC-rdf11-concepts-20140225/</a> (2014).</dd>
+  <dt id="ref-23">[23]</dt>
+  <dd resource="http://www.w3.org/TR/2013/REC-sparql11-query-20130321/" typeof="schema:CreativeWork">Harris, S., Seaborne, A., Prud’hommeaux, E.: <span class='abbreviation' title='SPARQL Procotol and RDF Query Language'>SPARQL</span> 1.1 Query Language. W3C, <a href="http://www.w3.org/TR/2013/REC-sparql11-query-20130321/">http:/​/​www.w3.org/TR/2013/REC-sparql11-query-20130321/</a> (2013).</dd>
+  <dt id="ref-24">[24]</dt>
+  <dd resource="http://www.w3.org/DesignIssues/Notation3.html" typeof="schema:CreativeWork">Berners-Lee, T.: Notation 3, 1998. <a href="http://www.w3.org/DesignIssues/Notation3.html">http:/​/​www.w3.org/DesignIssues/Notation3.html</a> (1998).</dd>
+</dl>
+</section>
+</footer>
+
+
+
+</body>
+</html>

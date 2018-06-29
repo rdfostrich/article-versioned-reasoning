@@ -1,0 +1,5 @@
+Removed:
+    ex:Bob a ex:Animal.
+
+Added:
+    ex:Bob a ex:Cat.
